@@ -1,3 +1,4 @@
+#AUTO GENERATED FILE, DON'T EDIT THIS
 #VRML V2.0 utf8
 
 PROTO Joint [
@@ -289,17 +290,19 @@ Viewpoint {
 
 DEF MATSUURA_HAND_R Humanoid {
   humanoidBody [
-    DEF WAIST Joint {
+    DEF HANDBASE Joint {
       jointType "free"
         jointAxis 0 0 0
         translation 0 0 0
         children [
         DEF HANDBASE Segment {
-          mass 0.70371
-            centerOfMass 0.08602 0.00047 0.03827
-            momentsOfInertia [0.00086 0.00016 0.00011 0.00016 0.00252 0.0 0.00011 0.0 0.00199]
+########## R_PALM_LINK0 MASS PROPERTY ##########
+mass 1.28073
+centerOfMass 0.09900 0.00355 -0.00193
+momentsOfInertia [0.00200 0.00044 -0.00015 0.00044 0.00508 0.00005 -0.00015 0.00005 0.00378]
+
             children [
-            Inline { url "R_PALM_LINK0.wrl" }
+            Inline { url "exchanged_wrl/R_PALM_LINK0.wrl" }
           ]
         } #End of HANDBASE
       DEF R_THUMB_JOINT0 Joint {
@@ -313,11 +316,13 @@ DEF MATSUURA_HAND_R Humanoid {
           lvlimit -3.14
           children [
           DEF R_THUMB_LINK0 Segment {
-            mass 0.03353
-              centerOfMass 0.0 0.0 0.032
-              momentsOfInertia [0.00002 0.0 0.0 0.0 0.00002 0.0 0.0 0.0 0.00002]
+########## R_THUMB_LINK0 MASS PROPERTY ##########
+mass 0.05437
+centerOfMass 0.00000 0.00000 0.04048
+momentsOfInertia [0.00004 0.00000 0.00000 0.00000 0.00004 0.00000 0.00000 0.00000 0.00003]
+
               children [
-              Inline { url "R_THUMB_LINK0.wrl" }
+              Inline { url "exchanged_wrl/R_THUMB_LINK0.wrl" }
             ]
           } #End of R_THUMB_LINK0
         DEF R_THUMB_JOINT1 Joint {
@@ -332,11 +337,13 @@ DEF MATSUURA_HAND_R Humanoid {
             rotation 0 1 0 0 # -1.5705
             children [
             DEF R_THUMB_LINK1 Segment {
-              mass 0.28465
-                centerOfMass 0.02678 0.00055 -0.00267
-                momentsOfInertia [0.00008 0.0 -0.00004 0.0 0.00024 0.0 -0.00004 0.0 0.00025]
+########## R_THUMB_LINK1 MASS PROPERTY ##########
+mass 0.36283
+centerOfMass 0.00638 0.00043 0.03616
+momentsOfInertia [0.00043 0.00000 0.00010 0.00000 0.00043 0.00000 0.00010 0.00000 0.00012]
+
                 children [
-                Inline { url "R_THUMB_LINK1.wrl" }
+                Inline { url "exchanged_wrl/R_THUMB_LINK1.wrl" }
               ]
             }
           ]
@@ -354,16 +361,13 @@ DEF MATSUURA_HAND_R Humanoid {
           lvlimit -3.14
           children [
           DEF R_INDEX_LINK0 Segment {
-          mass 0.10963
-          centerOfMass 0.05242 0.01230 0.0
-          momentsOfInertia [0.00006 0.00002 0.0 0.00002 0.00008 0.0 0.0 0.0 0.00006]
+########## R_INDEX_LINK0 MASS PROPERTY ##########
+mass 0.18431
+centerOfMass 0.04731 0.00969 -0.00202
+momentsOfInertia [0.00007 0.00003 0.00002 0.00003 0.00014 0.00000 0.00002 0.00000 0.00013]
+
           children [
-          # DEF R_INDEX_LINK0 Segment {
-          #   mass 0.03353
-          #     centerOfMass 0.0 0.0 0.032
-          #     momentsOfInertia [0.00002 0.0 0.0 0.0 0.00002 0.0 0.0 0.0 0.00002]
-          #     children [
-              Inline { url "R_INDEX_LINK0.wrl" }
+              Inline { url "exchanged_wrl/R_INDEX_LINK0.wrl" }
             ]
           } #End of R_INDEX_LINK0
         DEF R_INDEX_JOINT1 Joint {
@@ -378,11 +382,13 @@ DEF MATSUURA_HAND_R Humanoid {
             rotation 0 1 0 0 #-1.5705
             children [
             DEF R_INDEX_LINK1 Segment {
-              mass 0.28465
-                centerOfMass 0.02678 0.00055 -0.00267
-                momentsOfInertia [0.00008 0.0 -0.00004 0.0 0.00024 0.0 -0.00004 0.0 0.00025]
+########## R_INDEX_LINK1 MASS PROPERTY ##########
+mass 0.11127
+centerOfMass 0.04012 0.01037 0.00000
+momentsOfInertia [0.00003 0.00001 0.00000 0.00001 0.00005 0.00000 0.00000 0.00000 0.00004]
+
                 children [
-                Inline { url "R_INDEX_LINK1.wrl" }
+                Inline { url "exchanged_wrl/R_INDEX_LINK1.wrl" }
               ]
             }
           ]
@@ -390,8 +396,8 @@ DEF MATSUURA_HAND_R Humanoid {
         ]
       } #End of R_INDEX_JOINT0
       DEF R_MIDDLE_JOINT0 Joint {
-        translation 0.16331 0.021 -0.03345 #0.15453 0.01618 0.045      
-        # translation 0.15453 0.01618 -0.045 
+        translation 0.16331 0.021 -0.03345 #0.15453 0.01618 0.045
+        # translation 0.15453 0.01618 -0.045
           jointId 4
           jointType "rotate"
           jointAxis 0 0 1
@@ -401,21 +407,23 @@ DEF MATSUURA_HAND_R Humanoid {
           lvlimit -3.14
           children [
           DEF R_MIDDLE_LINK0 Segment {
-            mass 0.10963
-              centerOfMass 0.05242 0.01230 0.0
-              momentsOfInertia [0.00006 0.00002 0.0 0.00002 0.00008 0.0 0.0 0.0 0.00006]
+########## R_MIDDLE_LINK0 MASS PROPERTY ##########
+mass 0.21822
+centerOfMass 0.07276 0.02399 -0.00023
+momentsOfInertia [0.00017 0.00014 -0.00004 0.00014 0.00040 -0.00001 -0.00004 -0.00001 0.00041]
+
               children [
-              Inline { url "R_MIDFINGER_LINK0.wrl" }
+              Inline { url "exchanged_wrl/R_MIDDLE_LINK0.wrl" }
             ]
           } #End of R_MIDDLE_LINK0
         ]
       } #End of R_MIDDLE_JOINT0
       ]
-    } #End of WAIST
+    } #End of HANDBASE
   ]
 
   joints [
-    USE WAIST,
+    USE HANDBASE,
     USE R_THUMB_JOINT0,
     USE R_THUMB_JOINT1,
     USE R_INDEX_JOINT0,
