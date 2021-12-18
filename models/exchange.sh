@@ -12,7 +12,7 @@
 input_L=(
 "index_link0"
 "index_link1"
-"midfinger_link0"
+"middle_link0"
 "palm_link0"
 "thumb_link0"
 "thumb_link1"
@@ -20,7 +20,7 @@ input_L=(
 output_wo_LR=(
 "INDEX_LINK0"
 "INDEX_LINK1"
-"MIDFINGER_LINK0"
+"MIDDLE_LINK0"
 "PALM_LINK0"
 "THUMB_LINK0"
 "THUMB_LINK1"
@@ -45,27 +45,26 @@ function edit_colors() {
   }' $1
 }
 
-# for i in "${!input_C[@]}"
-# do
-#   meshlabserver -i .//${input_C[$i]}.wrl -o ${output_C[$i]}.obj       -s ./CAD_mesh/mesh_reduction.mlx -om fc
-#   roseus "(load \"package://eus_assimp/euslisp/eus-assimp.l\")" \
-#     "(setq glv (load-mesh-file \"${output_C[$i]}.obj\" :scale 1.0))" \
-#     "(save-mesh-file \"${output_C[$i]}.wrl\" glv :scale 1.0)" \
-#     "(exit)"
-#   edit_colors ${output_C[$i]}.wrl
-# done
+if [ ! -e ./byproduct ];then
+    mkdir ./byproduct/
+fi
+if [ ! -e ./exchanged_wrl ];then
+    mkdir ./exchanged_wrl/
+fi
 
+#compress and mirror models
 for i in "${!input_L[@]}"
 do
-  meshlabserver -i ./wrl/${input_L[$i]}.wrl -o L_${output_wo_LR[$i]}.obj  -s ./wrl/mesh_reduction.mlx -om fc
-  meshlabserver -i L_${output_wo_LR[$i]}.obj      -o R_${output_wo_LR[$i]}.obj  -s ./wrl/flip_Y.mlx         -om fc
+  meshlabserver -i ./original_wrl/${input_L[$i]}.wrl -o ./byproduct/R_${output_wo_LR[$i]}.obj  -s ./original_wrl/mesh_reduction.mlx -om fc
+  meshlabserver -i ./byproduct/R_${output_wo_LR[$i]}.obj      -o ./byproduct/L_${output_wo_LR[$i]}.obj  -s ./flip_Y.mlx         -om fc
   roseus "(load \"package://eus_assimp/euslisp/eus-assimp.l\")" \
-    "(setq glv (load-mesh-file \"L_${output_wo_LR[$i]}.obj\" :scale 1.0))" \
-    "(save-mesh-file \"L_${output_wo_LR[$i]}.wrl\" glv :scale 1.0)"\
-    "(setq glv (load-mesh-file \"R_${output_wo_LR[$i]}.obj\" :scale 1.0))" \
-    "(save-mesh-file \"R_${output_wo_LR[$i]}.wrl\" glv :scale 1.0)"\
-    "(exit)"
+         "(setq glv (load-mesh-file \"byproduct/R_${output_wo_LR[$i]}.obj\" :scale 1.0))" \
+         "(save-mesh-file \"R_${output_wo_LR[$i]}.wrl\" glv :scale 1.0)"\
+         "(setq glv (load-mesh-file \"byproduct/L_${output_wo_LR[$i]}.obj\" :scale 1.0))" \
+         "(save-mesh-file \"L_${output_wo_LR[$i]}.wrl\" glv :scale 1.0)"\
+         "(exit)"
   edit_colors L_${output_wo_LR[$i]}.wrl
   edit_colors R_${output_wo_LR[$i]}.wrl
+  mv L_${output_wo_LR[$i]}.wrl ./exchanged_wrl/
+  mv R_${output_wo_LR[$i]}.wrl ./exchanged_wrl/
 done
-rm *.obj*

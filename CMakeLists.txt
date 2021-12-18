@@ -17,9 +17,48 @@ find_package(catkin REQUIRED COMPONENTS
   roseus
 )
 
-compile_openhrp_model(${PROJECT_SOURCE_DIR}/model/RHP3HAND_Rmain.wrl RHP3HAND_R)
-compile_openhrp_model(${PROJECT_SOURCE_DIR}/model/RHP3HAND_Lmain.wrl RHP3HAND_L)
-## System dependencies are found with CMake's conventions
+# mass props 
+execute_process(
+COMMAND ./parse_mass_props.sh
+WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/models
+)
+
+set(link_list
+R_PALM_LINK0
+R_INDEX_LINK0
+R_INDEX_LINK1
+R_MIDDLE_LINK0
+R_THUMB_LINK0
+R_THUMB_LINK1
+L_PALM_LINK0
+L_INDEX_LINK0
+L_INDEX_LINK1
+L_MIDDLE_LINK0
+L_THUMB_LINK0
+L_THUMB_LINK1
+)
+
+#set *_MASS_PROP variable
+foreach(link IN LISTS link_list)
+  execute_process( COMMAND grep ${link} ${PROJECT_SOURCE_DIR}/models/all_mass_props_for_vrml.txt -A 3 OUTPUT_VARIABLE ${link}_MASS_PROP )
+endforeach()
+
+# generate normal model for hrpsys
+file(READ ${PROJECT_SOURCE_DIR}/models/matsuura_hand_main_r.wrl.in  RHAND_DESCRIPTION)
+file(READ ${PROJECT_SOURCE_DIR}/models/matsuura_hand_main_l.wrl.in  LHAND_DESCRIPTION)
+file(READ /dev/null                                       BASE_DESCRIPTION)
+
+#insert *_MASS_PROP to mass prop in wrl.in file and make wrl file
+configure_file(${PROJECT_SOURCE_DIR}/models/matsuura_hand_main_r.wrl.in ${PROJECT_SOURCE_DIR}/models/matsuura_hand_main_r.wrl @ONLY)
+configure_file(${PROJECT_SOURCE_DIR}/models/matsuura_hand_main_l.wrl.in ${PROJECT_SOURCE_DIR}/models/matsuura_hand_main_l.wrl @ONLY)
+execute_process( COMMAND sed -i "1i \#AUTO GENERATED FILE, DON'T EDIT THIS" ${PROJECT_SOURCE_DIR}/models/matsuura_hand_main_r.wrl )
+execute_process( COMMAND sed -i "1i \#AUTO GENERATED FILE, DON'T EDIT THIS" ${PROJECT_SOURCE_DIR}/models/matsuura_hand_main_l.wrl )
+
+# make eusmodel
+compile_openhrp_model(${PROJECT_SOURCE_DIR}/models/matsuura_hand_main_r.wrl MATSUURA_HAND_R)
+compile_openhrp_model(${PROJECT_SOURCE_DIR}/models/matsuura_hand_main_l.wrl MATSUURA_HAND_L)
+
+
 # find_package(Boost REQUIRED COMPONENTS system)
 
 
