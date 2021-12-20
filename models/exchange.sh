@@ -16,6 +16,7 @@ input_L=(
 "palm_link0"
 "thumb_link0"
 "thumb_link1"
+"lock_link0"
 )
 output_wo_LR=(
 "INDEX_LINK0"
@@ -24,6 +25,7 @@ output_wo_LR=(
 "PALM_LINK0"
 "THUMB_LINK0"
 "THUMB_LINK1"
+"LOCK_LINK0"
 )
 
 function edit_colors() {

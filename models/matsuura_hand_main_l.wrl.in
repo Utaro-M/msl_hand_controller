@@ -305,8 +305,8 @@ DEF MATSUURA_HAND_L Humanoid {
           jointId 0
           jointType "rotate"
           jointAxis 1 0 0
-          ulimit [0.0]
-          llimit [-1.58]
+          ulimit [1.58]
+          llimit [0.0]
           uvlimit 3.14
           lvlimit -3.14
           children [
@@ -321,8 +321,8 @@ DEF MATSUURA_HAND_L Humanoid {
             jointId 1
             jointType "rotate"
             jointAxis 0 1 0
-            ulimit [1.58]
-            llimit [0.0]
+            ulimit [0.0]
+            llimit [-1.58]
             uvlimit 3.14
             lvlimit -3.14
             rotation 0 1 0 0 # -1.5705
@@ -342,8 +342,8 @@ DEF MATSUURA_HAND_L Humanoid {
           jointId 2
           jointType "rotate"
           jointAxis 0 0 1
-          ulimit [3]
-          llimit [-1.5]
+          ulimit [0]
+          llimit [-2.0]
           uvlimit 3.14
           lvlimit -3.14
           children [
@@ -359,7 +359,7 @@ DEF MATSUURA_HAND_L Humanoid {
             jointType "rotate"
             jointAxis 0 0 1
             ulimit [1.58]
-            llimit [0.0]
+            llimit [-1.58]
             uvlimit 3.14
             lvlimit -3.14
             rotation 0 1 0 0 #-1.5705
@@ -383,8 +383,8 @@ DEF MATSUURA_HAND_L Humanoid {
           jointId 4
           jointType "rotate"
           jointAxis 0 0 1
-          ulimit [3]
-          llimit [-1.5]
+          ulimit [-2.0]
+          llimit [0.0]
           uvlimit 3.14
           lvlimit -3.14
           children [
@@ -396,6 +396,25 @@ DEF MATSUURA_HAND_L Humanoid {
           } #End of L_MIDDLE_LINK0
         ]
       } #End of L_MIDDLE_JOINT0
+      DEF L_LOCK_JOINT0 Joint {
+        translation 0.10537 -0.00475 0 #0.16331 0.021 -0.03345 #0.15453 0.01618 0.045
+        # translation 0.15453 0.01618 -0.045
+          jointId 5
+          jointType "rotate"
+          jointAxis 0 0 1
+          ulimit [0.5]
+          llimit [0.0]
+          uvlimit 3.14
+          lvlimit -3.14
+          children [
+          DEF L_LOCK_LINK0 Segment {
+@L_LOCK_LINK0_MASS_PROP@
+              children [
+              Inline { url "exchanged_wrl/L_LOCK_LINK0.wrl" }
+            ]
+          } #End of L_LOCK_LINK0
+        ]
+      } #End of L_LOCK_JOINT0
       ]
     } #End of HANDBASE
   ]

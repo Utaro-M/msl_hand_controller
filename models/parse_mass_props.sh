@@ -57,6 +57,7 @@ gen_link_prop middle_link0    R_MIDDLE_LINK0>> $out
 gen_link_prop palm_link0      R_PALM_LINK0 >> $out
 gen_link_prop thumb_link0     R_THUMB_LINK0 >> $out
 gen_link_prop thumb_link1     R_THUMB_LINK1 >> $out
+gen_link_prop lock_link0      R_LOCK_LINK0 >> $out
 
 gen_link_prop_inv index_link0     L_INDEX_LINK0 >> $out
 gen_link_prop_inv index_link1     L_INDEX_LINK1 >> $out
@@ -64,5 +65,6 @@ gen_link_prop_inv middle_link0    L_MIDDLE_LINK0>> $out
 gen_link_prop_inv palm_link0      L_PALM_LINK0 >> $out
 gen_link_prop_inv thumb_link0     L_THUMB_LINK0 >> $out
 gen_link_prop_inv thumb_link1     L_THUMB_LINK1 >> $out
+gen_link_prop lock_link0          L_LOCK_LINK0 >> $out
 
 echo "Finished, see $out"
