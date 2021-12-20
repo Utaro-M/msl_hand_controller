@@ -310,8 +310,8 @@ momentsOfInertia [0.00200 0.00044 -0.00015 0.00044 0.00508 0.00005 -0.00015 0.
           jointId 0
           jointType "rotate"
           jointAxis 1 0 0
-          ulimit [0.0]
-          llimit [-1.58]
+          ulimit [1.58]
+          llimit [0.0]
           uvlimit 3.14
           lvlimit -3.14
           children [
@@ -330,8 +330,8 @@ momentsOfInertia [0.00004 0 0.00000 0 0.00004 0 0.00000 0 0.00003]
             jointId 1
             jointType "rotate"
             jointAxis 0 1 0
-            ulimit [1.58]
-            llimit [0.0]
+            ulimit [0.0]
+            llimit [-1.58]
             uvlimit 3.14
             lvlimit -3.14
             rotation 0 1 0 0 # -1.5705
@@ -355,8 +355,8 @@ momentsOfInertia [0.00043 0 0.00010 0 0.00043 0 0.00010 0 0.00012]
           jointId 2
           jointType "rotate"
           jointAxis 0 0 1
-          ulimit [3]
-          llimit [-1.5]
+          ulimit [0]
+          llimit [-2.0]
           uvlimit 3.14
           lvlimit -3.14
           children [
@@ -376,7 +376,7 @@ momentsOfInertia [0.00007 -3e-05 0.00002 -3e-05 0.00014 0 0.00002 0 0.00013]
             jointType "rotate"
             jointAxis 0 0 1
             ulimit [1.58]
-            llimit [0.0]
+            llimit [-1.58]
             uvlimit 3.14
             lvlimit -3.14
             rotation 0 1 0 0 #-1.5705
@@ -404,8 +404,8 @@ momentsOfInertia [0.00003 -1e-05 0.00000 -1e-05 0.00005 0 0.00000 0 0.00004]
           jointId 4
           jointType "rotate"
           jointAxis 0 0 1
-          ulimit [3]
-          llimit [-1.5]
+          ulimit [-2.0]
+          llimit [0.0]
           uvlimit 3.14
           lvlimit -3.14
           children [

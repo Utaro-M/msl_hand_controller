@@ -1,6 +1,5 @@
 #AUTO GENERATED FILE, DON'T EDIT THIS
 #VRML V2.0 utf8
-
 PROTO Joint [
 exposedField     SFVec3f      center              0 0 0
 exposedField     MFNode       children            []
@@ -330,8 +329,8 @@ momentsOfInertia [0.00004 0.00000 0.00000 0.00000 0.00004 0.00000 0.00000 0.00
             jointId 1
             jointType "rotate"
             jointAxis 0 1 0
-            ulimit [1.58]
-            llimit [0.0]
+            ulimit [0.0]
+            llimit [-1.58]
             uvlimit 3.14
             lvlimit -3.14
             rotation 0 1 0 0 # -1.5705
@@ -355,8 +354,8 @@ momentsOfInertia [0.00043 0.00000 0.00010 0.00000 0.00043 0.00000 0.00010 0.00
           jointId 2
           jointType "rotate"
           jointAxis 0 0 1
-          ulimit [3]
-          llimit [-1.5]
+          ulimit [2.0]
+          llimit [0]
           uvlimit 3.14
           lvlimit -3.14
           children [
@@ -376,7 +375,7 @@ momentsOfInertia [0.00007 0.00003 0.00002 0.00003 0.00014 0.00000 0.00002 0.00
             jointType "rotate"
             jointAxis 0 0 1
             ulimit [1.58]
-            llimit [0.0]
+            llimit [-1.58]
             uvlimit 3.14
             lvlimit -3.14
             rotation 0 1 0 0 #-1.5705
@@ -401,8 +400,8 @@ momentsOfInertia [0.00003 0.00001 0.00000 0.00001 0.00005 0.00000 0.00000 0.00
           jointId 4
           jointType "rotate"
           jointAxis 0 0 1
-          ulimit [3]
-          llimit [-1.5]
+          ulimit [2.0]
+          llimit [0.0]
           uvlimit 3.14
           lvlimit -3.14
           children [
