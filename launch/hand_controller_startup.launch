@@ -1,0 +1,58 @@
+<launch>
+  <arg name="usb_port"                default="/dev/MatsuuraHandR"/>
+  <arg name="dxl_baud_rate"           default="1000000"/>
+  <arg name="namespace"               default="dynamixel_hand_controller"/>
+  <arg name="server_name"             default="rhand_dynamixel_joint_trajectory_server"/>
+  <arg name="simulator"               default="false" />
+
+  <arg name="use_moveit"              default="false"/>
+  <arg name="use_joint_state"         default="true"/>
+  <arg name="use_cmd_vel"             default="false"/>
+  <arg name="config_file" default="" />
+
+  <!-- <machine name="jaxonvision" address="vmachine" env-loader="$(find matsuura_hand)/devel/env.sh" /> -->
+  <machine name="jaxonvision" address="vmachine" env-loader="/home/leus/catkin_ws/jaxon_tutorial/devel/env.sh" unless="$(arg simulator)"/>
+  <arg name="MACHINE" default="jaxonvision" unless="$(arg simulator)"/>
+
+  <param name="dynamixel_info"          value="$(arg config_file)"/>
+
+  <!-- when launch in simulator -->
+  <group if="$(arg simulator)">
+    <node name="$(arg namespace)" pkg="dynamixel_workbench_controllers" type="dynamixel_workbench_controllers"
+          required="true" output="screen" args="$(arg usb_port) $(arg dxl_baud_rate) $(arg config_file)">
+      <param name="use_moveit"              value="$(arg use_moveit)"/>
+      <param name="use_joint_states_topic"  value="$(arg use_joint_state)"/>
+      <param name="use_cmd_vel_topic"       value="$(arg use_cmd_vel)"/>
+      <rosparam>
+        publish_period: 0.010
+        dxl_read_period: 0.010
+        dxl_write_period: 0.010
+        mobile_robot_config:                <!--this values will be set when 'use_cmd_vel' is true-->
+          seperation_between_wheels: 0.160  <!--default value is set by reference of TB3-->
+          radius_of_wheel: 0.033            <!--default value is set by reference of TB3-->
+      </rosparam>
+    </node>
+  </group>
+  <!-- when launch in real machine (launch node in vision pc) -->
+  <!-- use machine tag -->
+  <group unless="$(arg simulator)">
+    <node name="$(arg namespace)" pkg="dynamixel_workbench_controllers" type="dynamixel_workbench_controllers"
+          required="true" output="screen" args="$(arg usb_port) $(arg dxl_baud_rate) $(arg config_file)"
+          machine="$(arg MACHINE)">
+      <param name="use_moveit"              value="$(arg use_moveit)"/>
+      <param name="use_joint_states_topic"  value="$(arg use_joint_state)"/>
+      <param name="use_cmd_vel_topic"       value="$(arg use_cmd_vel)"/>
+      <rosparam>
+        publish_period: 0.010
+        dxl_read_period: 0.010
+        dxl_write_period: 0.010
+        mobile_robot_config:                <!--this values will be set when 'use_cmd_vel' is true-->
+          seperation_between_wheels: 0.160  <!--default value is set by reference of TB3-->
+          radius_of_wheel: 0.033            <!--default value is set by reference of TB3-->
+      </rosparam>
+    </node>
+  </group>
+
+  <node name="$(arg server_name)" pkg="matsuura_hand" type="dynamixel_joint_trajectory_server.py"
+    required="true" output="screen" args="$(arg namespace) $(arg config_file)" />
+</launch>
