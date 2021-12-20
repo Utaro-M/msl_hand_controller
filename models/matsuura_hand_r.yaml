@@ -1,0 +1,18 @@
+rarm:
+  - R_THUMB_JOINT0 : rarm-thumb-r
+  - R_THUMB_JOINT1 : rarm-thumb-p
+  - R_INDEX_JOINT0 : rarm-index-r1
+  - R_INDEX_JOINT1 : rarm-index-r2
+  - R_MIDDLE_JOINT0 : rarm-middle-r
+  - R_LOCK_JOINT0 : rarm-lock
+
+# rarm-end-coords:
+#   parent: RARM_LINK7
+  # translate : [0,  0, -0.220]
+  # rotate    : [0.0, 1.0, 0.0, 90.0]
+
+angle-vector:
+  reset-pose : [0, 0, 0, 0, 0, 0]
+  open-pose :  [90, 0, 0, 0, 0, 0]
+  # hook-pose : [90, 0, -30]
+  # grasp-pose : [90, 90, -120]

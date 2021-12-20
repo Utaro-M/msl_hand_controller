@@ -297,9 +297,9 @@ DEF MATSUURA_HAND_L Humanoid {
         children [
         DEF HANDBASE Segment {
 ########## R_PALM_LINK0 MASS PROPERTY ##########
-mass 1.28073
-centerOfMass 0.09900 0.00355 -0.00193
-momentsOfInertia [0.00200 0.00044 -0.00015 0.00044 0.00508 0.00005 -0.00015 0.00005 0.00378]
+mass 1.22366
+centerOfMass 0.09829 0.00402 -0.00197
+momentsOfInertia [0.00198 0.00044 -0.00015 0.00044 0.00506 0.00005 -0.00015 0.00005 0.00374]
 
             children [
             Inline { url "exchanged_wrl/L_PALM_LINK0.wrl" }
@@ -421,6 +421,25 @@ momentsOfInertia [0.00017 -0.00014 -0.00004 -0.00014 0.00040 1e-05 -0.00004 1e-
           } #End of L_MIDDLE_LINK0
         ]
       } #End of L_MIDDLE_JOINT0
+      DEF L_LOCK_JOINT0 Joint {
+        translation 0.10537 -0.00475 0 #0.16331 0.021 -0.03345 #0.15453 0.01618 0.045
+        # translation 0.15453 0.01618 -0.045
+          jointId 5
+          jointType "rotate"
+          jointAxis 0 0 1
+          ulimit [1.0]
+          llimit [0.0]
+          uvlimit 3.14
+          lvlimit -3.14
+          children [
+          DEF L_LOCK_LINK0 Segment {
+
+              children [
+              Inline { url "exchanged_wrl/L_LOCK_LINK0.wrl" }
+            ]
+          } #End of L_LOCK_LINK0
+        ]
+      } #End of L_LOCK_JOINT0
       ]
     } #End of HANDBASE
   ]
