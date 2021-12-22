@@ -1,0 +1,12 @@
+<launch>
+  <arg name="simulator" default="false"/>
+  <arg name="MACHINE" default="jaxonvision" unless="$(arg simulator)"/>
+  <include file="$(find matsuura_hand)/launch/hand_controller_startup.launch">
+    <arg name="namespace" value="left_hand_controller"/>
+    <arg name="config_file" value="$(find matsuura_hand)/config/left_hand.yaml"/>
+    <arg name="usb_port" value="/dev/MatsuuraHandL"/>
+    <arg name="server_name" value="lhand_dynamixel_joint_trajectory_server"/>
+    <arg name="simulator" value="$(arg simulator)" />
+    <arg name="MACHINE" value="$(arg MACHINE)" unless="$(arg simulator)"/>
+  </include>
+</launch>
