@@ -1,0 +1,18 @@
+larm:
+  - L_THUMB_JOINT0 : larm-thumb-r
+  - L_THUMB_JOINT1 : larm-thumb-p
+  - L_INDEX_JOINT0 : larm-index-r1
+  - L_INDEX_JOINT1 : larm-index-r2
+  - L_MIDDLE_JOINT0 : larm-middle-r
+  - L_LOCK_JOINT0 : larm-lock
+
+# larm-end-coords:
+#   parent: LARM_LINK7
+  # translate : [0,  0, -0.220]
+  # rotate    : [0.0, 1.0, 0.0, 90.0]
+
+angle-vector:
+  reset-pose : [0, 0, 0, 0, 0, 0]
+  open-pose : [90, 0, 0, 0, 0, 0]
+  # hook-pose : [90, 0, -30]
+  # grasp-pose : [90, 90, -120]
