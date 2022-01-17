@@ -4,6 +4,7 @@
   <include file="$(find matsuura_hand)/launch/hand_controller_startup.launch">
     <arg name="namespace" value="right_hand_controller"/>
     <arg name="config_file" value="$(find matsuura_hand)/config/right_hand.yaml"/>
+    <arg name="min_max_file" value="$(find matsuura_hand)/config/right_min_max.yaml"/>
     <arg name="usb_port" value="/dev/MatsuuraHandR"/>
     <arg name="server_name" value="rhand_dynamixel_joint_trajectory_server"/>
     <arg name="simulator" value="$(arg simulator)" />

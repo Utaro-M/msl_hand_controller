@@ -10,6 +10,7 @@ import actionlib
 from trajectory_msgs.msg import JointTrajectory
 from trajectory_msgs.msg import JointTrajectoryPoint
 from dynamixel_workbench_msgs.msg import DynamixelStateList
+import math
 
 class DynamixelJointTrajectoryServer():
     _feedback = FollowJointTrajectoryFeedback()
@@ -18,9 +19,11 @@ class DynamixelJointTrajectoryServer():
     _conf_file = None
     _joint_names = None
 
-    def __init__(self, ns, conf):
+    def __init__(self, ns, conf, min_max_file):
         self._namespace = ns
         self._conf_file = conf
+        self._min_max_file = min_max_file
+        self.min_max_flag = True
         rospy.init_node(ns + '_server', anonymous=True)
         self.r = rospy.Rate(100)
         self.server = actionlib.SimpleActionServer('/' + ns + '/follow_joint_trajectory_action', FollowJointTrajectoryAction, self.execute, False)
@@ -28,12 +31,20 @@ class DynamixelJointTrajectoryServer():
         self.joint_command_pub = rospy.Publisher('/' + ns + '/joint_trajectory', JointTrajectory, queue_size=2)
         self.dynamixel_state_sub = rospy.Subscriber('/' + ns + '/dynamixel_state', DynamixelStateList, self.state_callback)
         self.interpolatingp = False
-        with open(conf) as f:
-            yml = yaml.load(f)
+        with open(self._conf_file) as f:
+            yml = yaml.load(f, Loader=yaml.FullLoader)
             self._joint_names = yml.keys()
-            self._current_limit = [yml[yml.keys()[0]]["Current_Limit"], yml[yml.keys()[1]]["Current_Limit"] ,yml[yml.keys()[2]]["Current_Limit"],yml[yml.keys()[3]]["Current_Limit"],yml[yml.keys()[4]]["Current_Limit"],yml[yml.keys()[5]]["Current_Limit"]]
+            self._current_limit = [yml[yml.keys()[0]]["Current_Limit"],
+                                   yml[yml.keys()[1]]["Current_Limit"],
+                                   yml[yml.keys()[2]]["Current_Limit"],
+                                   yml[yml.keys()[3]]["Current_Limit"],
+                                   yml[yml.keys()[4]]["Current_Limit"],
+                                   yml[yml.keys()[5]]["Current_Limit"]]
+        with open(self._min_max_file) as f:
+            self.min_max_yml = yaml.load(f, Loader=yaml.FullLoader)
 
     def execute(self, goal):
+        self.min_max_flag = True
         success = True
         pub_msg = JointTrajectory()
         pub_msg.header = goal.trajectory.header
@@ -49,6 +60,14 @@ class DynamixelJointTrajectoryServer():
         for p in goal.trajectory.points:
             point = JointTrajectoryPoint()
             if len(p.positions) != 0:
+                i =0
+                for pos in p.positions:
+                    if (self.min_max_yml[self._joint_names[i]]["Min_Pos"] / 180.0 * math.pi)  <= pos and pos <= (self.min_max_yml[self._joint_names[i]]["Max_Pos"] / 180.0 * math.pi):
+                        pass
+                    else:
+                        rospy.logerr('%s: %s is MIN MAX OVER ! (check config/*_min_max.yaml)' , self._joint_names[i], str(pos))
+                        self.min_max_flag = False
+                    i+=1
                 point.positions = [
                     p.positions[hand_thumb_roll_id],
                     p.positions[hand_thumb_pitch_id],
@@ -76,12 +95,16 @@ class DynamixelJointTrajectoryServer():
                 point.effort = [
                     1.0 * self._current_limit[0],
                     1.0 * self._current_limit[1],
-                    1.0 * self._current_limit[2]]
+                    1.0 * self._current_limit[2],
+                    1.0 * self._current_limit[3],
+                    1.0 * self._current_limit[4],
+                    1.0 * self._current_limit[5]]
             point.time_from_start = p.time_from_start
             pub_msg.points.append(point)
             wait_time = p.time_from_start.to_sec()
         start_time = rospy.get_rostime()
-        self.joint_command_pub.publish(pub_msg)
+        if self.min_max_flag:
+            self.joint_command_pub.publish(pub_msg)
         while True:
             now = rospy.get_rostime()
             if self.server.is_preempt_requested():
@@ -107,8 +130,9 @@ if __name__ == '__main__':
     args = sys.argv
     namespace = args[1]
     conf_file = args[2]
+    min_max_file = args[3]
 
     try:
-        s = DynamixelJointTrajectoryServer(namespace, conf_file)
+        s = DynamixelJointTrajectoryServer(namespace, conf_file, min_max_file)
         rospy.spin()
     except rospy.ROSInterruptException: pass

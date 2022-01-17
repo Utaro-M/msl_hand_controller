@@ -9,6 +9,7 @@
   <arg name="use_joint_state"         default="true"/>
   <arg name="use_cmd_vel"             default="false"/>
   <arg name="config_file" default="" />
+  <arg name="min_max_file" default="" />
 
   <!-- <machine name="jaxonvision" address="vmachine" env-loader="$(find matsuura_hand)/devel/env.sh" /> -->
   <machine name="jaxonvision" address="vmachine" env-loader="/home/leus/catkin_ws/jaxon_tutorial/devel/env.sh" unless="$(arg simulator)"/>
@@ -54,5 +55,5 @@
   </group>
 
   <node name="$(arg server_name)" pkg="matsuura_hand" type="dynamixel_joint_trajectory_server.py"
-    required="true" output="screen" args="$(arg namespace) $(arg config_file)" />
+    required="true" output="screen" args="$(arg namespace) $(arg config_file) $(arg min_max_file)" />
 </launch>
