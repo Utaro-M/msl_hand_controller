@@ -1,0 +1,8 @@
+#http://linux-tips.org/t/prevent-modem-manager-to-capture-usb-serial-devices/284/2.
+
+#cp rules /etc/udev/rules.d/
+#sudo udevadm control --reload-rules
+#sudo udevadm trigger
+
+SUBSYSTEM=="tty", ATTRS{idVendor}=="0403", ATTRS{idProduct}=="6014", SYMLINK+="MatsuuraHandL", MODE="0666" ##新基板
+SUBSYSTEM=="tty", ATTRS{idVendor}=="0403", ATTRS{idProduct}=="6015",  SYMLINK+="MatsuuraHandR", MODE="0666" ##旧基板
