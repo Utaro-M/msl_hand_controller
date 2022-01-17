@@ -1,35 +1,44 @@
 #for dynamixel
 R_THUMB_JOINT0:
   ID: 1
-  Return_Delay_Time: 0
+  Return_Delay_Time: 50
   Operating_Mode: 5
   Current_Limit: 740
+  Homing_Offset: -2048
 R_THUMB_JOINT1:
   ID: 2
-  Return_Delay_Time: 0
+  Return_Delay_Time: 50
   Operating_Mode: 5
   Current_Limit: 740
+  Homing_Offset: -2048
 R_INDEX_JOINT0:
   ID: 3
-  Return_Delay_Time: 0
+  Return_Delay_Time: 50
   Operating_Mode: 5
   Current_Limit: 740
-  Homing_Offset: 341
+  Homing_Offset: -1706
 R_INDEX_JOINT1:
   ID: 4
-  Return_Delay_Time: 0
+  Return_Delay_Time: 50
   Operating_Mode: 5
   Current_Limit: 740
-  Homing_Offset: 341
+  Homing_Offset: -2048
 R_MIDDLE_JOINT0:
   ID: 5
-  Return_Delay_Time: 0
+  Return_Delay_Time: 50
   Operating_Mode: 5
+  Drive_Mode: 1
   Current_Limit: 740
-  Homing_Offset: 341
+  Homing_Offset: 1706
 R_LOCK_JOINT0:
   ID: 6
-  Return_Delay_Time: 0
+  Return_Delay_Time: 50
   Operating_Mode: 5
   Current_Limit: 740
-  Homing_Offset: 341
+  Homing_Offset: -3244
+##ID 1: -120~0
+##ID 2: -100~0
+##ID 3:    0~120
+##ID 4:  -90~100
+##ID 5:    0~120
+##ID 6:  -14~0
