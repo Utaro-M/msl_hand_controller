@@ -305,7 +305,7 @@ DEF MATSUURA_HAND_L Humanoid {
           jointId 0
           jointType "rotate"
           jointAxis 1 0 0
-          ulimit [2.08]
+          ulimit [2.1]
           llimit [0.0]
           uvlimit 3.14
           lvlimit -3.14
@@ -321,7 +321,7 @@ DEF MATSUURA_HAND_L Humanoid {
             jointId 1
             jointType "rotate"
             jointAxis 0 1 0
-            ulimit [1.58]
+            ulimit [1.75]
             llimit [0.0]
             uvlimit 3.14
             lvlimit -3.14
@@ -343,7 +343,7 @@ DEF MATSUURA_HAND_L Humanoid {
           jointType "rotate"
           jointAxis 0 0 1
           ulimit [0]
-          llimit [-2.08]
+          llimit [-2.1]
           uvlimit 3.14
           lvlimit -3.14
           children [
@@ -359,7 +359,7 @@ DEF MATSUURA_HAND_L Humanoid {
             jointType "rotate"
             jointAxis 0 0 1
             ulimit [1.58]
-            llimit [-2.08]
+            llimit [-1.75]
             uvlimit 3.14
             lvlimit -3.14
             rotation 0 1 0 0 #-1.5705
@@ -384,7 +384,7 @@ DEF MATSUURA_HAND_L Humanoid {
           jointType "rotate"
           jointAxis 0 0 1
           ulimit [0.0]
-          llimit [-2.08]
+          llimit [-2.1]
           uvlimit 3.14
           lvlimit -3.14
           children [
@@ -402,7 +402,7 @@ DEF MATSUURA_HAND_L Humanoid {
           jointId 5
           jointType "rotate"
           jointAxis 0 0 1
-          ulimit [0.5]
+          ulimit [0.25]
           llimit [0.0]
           uvlimit 3.14
           lvlimit -3.14
@@ -425,7 +425,8 @@ DEF MATSUURA_HAND_L Humanoid {
     USE L_THUMB_JOINT1,
     USE L_INDEX_JOINT0,
     USE L_INDEX_JOINT1,
-    USE L_MIDDLE_JOINT0
+    USE L_MIDDLE_JOINT0,
+    USE L_LOCK_JOINT0
   ] #joints
 
   segments [
@@ -434,6 +435,7 @@ DEF MATSUURA_HAND_L Humanoid {
     USE L_THUMB_LINK1,
     USE L_INDEX_LINK0,
     USE L_INDEX_LINK1,
-    USE L_MIDDLE_LINK0
+    USE L_MIDDLE_LINK0,
+    USE L_LOCK_LINK0
   ] #segments
 } #End of Humanoid

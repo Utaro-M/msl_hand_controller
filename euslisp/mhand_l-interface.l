@@ -1,5 +1,5 @@
 (load "package://pr2eus/robot-interface.l")
-(require :mhand_r "package://matsuura_hand/models/matsuura_hand_l.l")
+(require :mhand_l "package://matsuura_hand/models/matsuura_hand_l.l")
 (ros::load-ros-manifest "control_msgs")
 
 (defclass matsuura_hand_l-interface
@@ -9,7 +9,7 @@
   (:init
     (&rest args &key ((:controller-timeout ct) 5))
     (prog1
-      (send-super* :init :robot matsuura_hand_l-robot :controller-timeout ct args)
+      (send-super* :init :robot matsuura_hand_l-robot :controller-timeout ct :joint-states-topic "/left_hand_controller/joint_states" args) ;; :publish-joint-states-topic
       )
     )
   (:default-controller

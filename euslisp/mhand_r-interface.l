@@ -9,7 +9,7 @@
   (:init
     (&rest args &key ((:controller-timeout ct) 5))
     (prog1
-      (send-super* :init :robot matsuura_hand_r-robot :controller-timeout ct args)
+      (send-super* :init :robot matsuura_hand_r-robot :controller-timeout ct :joint-states-topic "/right_hand_controller/joint_states" args)
       )
     )
   (:default-controller
