@@ -15,3 +15,14 @@ Solidworksで各リンクのアセンブリを開いて(全身アセンブリで
 1. win_manus_ros_node.batを実行しmanus_ros_nodeを上げる
 - /manus/left_hand/joint_states: 関節角度列
 - /manus/left_hand/rumble: 振動司令
+
+# memo
+## min_maxの設定
+- config/*_min_max.yamlとmatsuura_hand_main_*.wrl.inの2箇所にmin,max角度を記述する
+  config/*_min_max.yamlはserver.pyで使用）
+- dynamixelモータのposition 180度がeusなどからの司令時の0度に対応している？
+  (homing offsetの設定はこれを考慮しwizardでeus等で0度としたい角度で１positionが180度となるように決めれば良い)
+- モータをつけ直した際はwizardｆで可動域を確認する
+## build
+- configやモデルを更新した際のcatkin build時は、古い生成ファイルが残ったままだと新しく生成されないため、削除してからビルドすること
+ （matsuura_hand_l.l、（大文字）.*ファイルなど）
