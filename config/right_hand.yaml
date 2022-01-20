@@ -36,7 +36,7 @@ R_LOCK_JOINT0:
   Return_Delay_Time: 0
   Operating_Mode: 5
   Current_Limit: 740
-  Homing_Offset: -1148
+  Homing_Offset: -1042
 ##ID 1: -120~0
 ##ID 2: 0~100
 ##ID 3:    0~120

@@ -322,7 +322,7 @@ DEF MATSUURA_HAND_R Humanoid {
             jointType "rotate"
             jointAxis 0 1 0
             ulimit [1.75]
-            llimit [0.0]
+            llimit [-1.58]
             uvlimit 3.14
             lvlimit -3.14
             rotation 0 1 0 0 # -1.5705
@@ -398,8 +398,8 @@ DEF MATSUURA_HAND_R Humanoid {
           jointId 5
           jointType "rotate"
           jointAxis 0 0 1
-          ulimit [0.0]
-          llimit [-0.25]
+          ulimit [0.25]
+          llimit [0.0]
           uvlimit 3.14
           lvlimit -3.14
           children [

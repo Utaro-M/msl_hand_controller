@@ -1,11 +1,11 @@
-Min##left hand position limit
+##left hand position limit
 R_THUMB_JOINT0:
   ID: 1
   Min_Pos: -120.0
   Max_Pos: 0.0
 R_THUMB_JOINT1:
   ID: 2
-  Min_Pos: 0.0
+  Min_Pos: -90.0
   Max_Pos: 100.0
 R_INDEX_JOINT0:
   ID: 3
@@ -21,5 +21,5 @@ R_MIDDLE_JOINT0:
   Max_Pos: 120.0
 R_LOCK_JOINT0:
   ID: 6
-  Min_Pos: -14.0
-  Max_Pos: 0.0
+  Min_Pos: 0.0
+  Max_Pos: 14.0
