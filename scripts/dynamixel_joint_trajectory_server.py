@@ -60,14 +60,6 @@ class DynamixelJointTrajectoryServer():
         for p in goal.trajectory.points:
             point = JointTrajectoryPoint()
             if len(p.positions) != 0:
-                i =0
-                for pos in p.positions:
-                    if (self.min_max_yml[self._joint_names[i]]["Min_Pos"] / 180.0 * math.pi)  <= pos and pos <= (self.min_max_yml[self._joint_names[i]]["Max_Pos"] / 180.0 * math.pi):
-                        pass
-                    else:
-                        rospy.logerr('%s: %s is MIN MAX OVER ! (check config/*_min_max.yaml)' , self._joint_names[i], str(pos))
-                        self.min_max_flag = False
-                    i+=1
                 point.positions = [
                     p.positions[hand_thumb_roll_id],
                     p.positions[hand_thumb_pitch_id],
@@ -75,6 +67,14 @@ class DynamixelJointTrajectoryServer():
                     p.positions[hand_index_yaw_2_id],
                     p.positions[hand_middle_yaw_id],
                     p.positions[hand_lock_id]]
+                i =0
+                for pos in point.positions:
+                    if (self.min_max_yml[self._joint_names[i]]["Min_Pos"] / 180.0 * math.pi)  <= pos and pos <= (self.min_max_yml[self._joint_names[i]]["Max_Pos"] / 180.0 * math.pi):
+                        pass
+                    else:
+                        rospy.logerr('%s: %s is MIN MAX OVER ! (check config/*_min_max.yaml)' , self._joint_names[i], str(pos))
+                        self.min_max_flag = False
+                    i+=1
             if len(p.velocities) != 0:
                 point.velocities = [
                     p.velocities[hand_thumb_roll_id],
