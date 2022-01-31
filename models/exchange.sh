@@ -17,6 +17,8 @@ input_L=(
 "thumb_link0"
 "thumb_link1"
 "lock_link0"
+"matsuurahand_all"
+"matsuurahand_palm_wrist"
 )
 output_wo_LR=(
 "INDEX_LINK0"
@@ -26,6 +28,8 @@ output_wo_LR=(
 "THUMB_LINK0"
 "THUMB_LINK1"
 "LOCK_LINK0"
+"MATSUURAHAND_ALL"
+"MATSUURAHAND_PALM_WRIST"
 )
 
 function edit_colors() {
@@ -57,8 +61,10 @@ fi
 #compress and mirror models
 for i in "${!input_L[@]}"
 do
-  meshlabserver -i ./original_wrl/${input_L[$i]}.wrl -o ./byproduct/R_${output_wo_LR[$i]}.obj  -s ./original_wrl/mesh_reduction.mlx -om fc
-  meshlabserver -i ./byproduct/R_${output_wo_LR[$i]}.obj      -o ./byproduct/L_${output_wo_LR[$i]}.obj  -s ./flip_Y.mlx         -om fc
+  meshlabserver -i ./original_wrl/${input_L[$i]}.wrl -o ./byproduct/R_${output_wo_LR[$i]}.obj  -s mesh_reduction.mlx -om fc
+  cd ./byproduct/
+  meshlabserver -i ./R_${output_wo_LR[$i]}.obj       -o ./L_${output_wo_LR[$i]}.obj  -s ../flip_Y.mlx     -om fc
+  cd ../
   roseus "(load \"package://eus_assimp/euslisp/eus-assimp.l\")" \
          "(setq glv (load-mesh-file \"byproduct/R_${output_wo_LR[$i]}.obj\" :scale 1.0))" \
          "(save-mesh-file \"R_${output_wo_LR[$i]}.wrl\" glv :scale 1.0)"\
