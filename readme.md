@@ -1,7 +1,9 @@
 # Matsuura Hand
 <!-- ### TABLISmain.wrl -->
 # モデルの変換手順
-1. solidworksからwrlファイルをoriginal_wrlへ入れる
+1. solidworksの外観からRGBの色を指定(個別パーツごとに指定する必要あり)
+1. solidworksからVRML出力(指定保存→ｵﾌﾟｼｮﾝ→VRML97→ﾄﾞｷｭﾒﾝﾄﾌﾟﾛﾊﾟﾃｨ→ｲﾒｰｼﾞ品質→スライドバー最低設定)
+1. wrlファイルをoriginal_wrlへ入れる
 1. exchange.shを実行しモデルのミラーを呼び圧縮を行う（exchanged_wrl/）
 1. SolidworksからVRMLに質量特性反映を行う
 1. caktin build matsuura_hand により、mass propがmatsuura_hand_main_*.wrlへ埋め込まれる
@@ -17,6 +19,10 @@ Solidworksで各リンクのアセンブリを開いて(全身アセンブリで
 - /manus/left_hand/rumble: 振動司令
 
 # memo
+## モデルファイルの変換
+- meshlabserver コマンドによるobjファイルの変換時にはobjファイルと同じディレクトリ内でコマンド実行の必要あり
+- .objとともに生成される.obj.mtlに色情報が含まれておりコマンド実行時のファイル探索では実行ディレクトリ内しか探索しないらしい
+## min_maxの設定
 ## min_maxの設定
 - config/*_min_max.yamlとmatsuura_hand_main_*.wrl.inの2箇所にmin,max角度を記述する
   config/*_min_max.yamlはserver.pyで使用）
