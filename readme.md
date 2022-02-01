@@ -23,7 +23,6 @@ Solidworksで各リンクのアセンブリを開いて(全身アセンブリで
 - meshlabserver コマンドによるobjファイルの変換時にはobjファイルと同じディレクトリ内でコマンド実行の必要あり
 - .objとともに生成される.obj.mtlに色情報が含まれておりコマンド実行時のファイル探索では実行ディレクトリ内しか探索しないらしい
 ## min_maxの設定
-## min_maxの設定
 - config/*_min_max.yamlとmatsuura_hand_main_*.wrl.inの2箇所にmin,max角度を記述する
   config/*_min_max.yamlはserver.pyで使用）
 - dynamixelモータのposition 180度がeusなどからの司令時の0度に対応している？
