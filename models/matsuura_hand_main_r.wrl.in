@@ -289,12 +289,12 @@ Viewpoint {
 
 DEF MATSUURA_HAND_R Humanoid {
   humanoidBody [
-    DEF HANDBASE Joint {
+    DEF HANDBASE_R Joint {
       jointType "free"
         jointAxis 0 0 0
         translation 0 0 0
         children [
-        DEF HANDBASE Segment {
+        DEF HANDBASE_R Segment {
 @R_PALM_LINK0_MASS_PROP@
             children [
             Inline { url "exchanged_wrl/R_PALM_LINK0.wrl" }
@@ -416,7 +416,7 @@ DEF MATSUURA_HAND_R Humanoid {
   ]
 
   joints [
-    USE HANDBASE,
+    USE HANDBASE_R,
     USE R_THUMB_JOINT0,
     USE R_THUMB_JOINT1,
     USE R_INDEX_JOINT0,
@@ -426,7 +426,7 @@ DEF MATSUURA_HAND_R Humanoid {
   ] #joints
 
   segments [
-    USE HANDBASE
+    USE HANDBASE_R
     USE R_THUMB_LINK0,
     USE R_THUMB_LINK1,
     USE R_INDEX_LINK0,
