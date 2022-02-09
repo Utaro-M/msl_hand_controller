@@ -17,8 +17,8 @@ input_L=(
 "thumb_link0"
 "thumb_link1"
 "lock_link0"
-"matsuurahand_all"
-"matsuurahand_palm_wrist"
+"msl_hand_all"
+"msl_hand_palm_wrist"
 )
 output_wo_LR=(
 "INDEX_LINK0"
@@ -28,8 +28,8 @@ output_wo_LR=(
 "THUMB_LINK0"
 "THUMB_LINK1"
 "LOCK_LINK0"
-"MATSUURAHAND_ALL"
-"MATSUURAHAND_PALM_WRIST"
+"MSL_HAND_ALL"
+"MSL_HAND_PALM_WRIST"
 )
 
 function edit_colors() {

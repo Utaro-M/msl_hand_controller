@@ -1,5 +1,5 @@
 <launch>
-  <arg name="usb_port"                default="/dev/MatsuuraHandR"/>
+  <arg name="usb_port"                default="/dev/MslHandR"/>
   <arg name="dxl_baud_rate"           default="1000000"/>
   <arg name="namespace"               default="dynamixel_hand_controller"/>
   <arg name="server_name"             default="rhand_dynamixel_joint_trajectory_server"/>
@@ -11,7 +11,7 @@
   <arg name="config_file" default="" />
   <arg name="min_max_file" default="" />
 
-  <!-- <machine name="jaxonvision" address="vmachine" env-loader="$(find matsuura_hand)/devel/env.sh" /> -->
+  <!-- <machine name="jaxonvision" address="vmachine" env-loader="$(find msl_hand_controller)/devel/env.sh" /> -->
   <machine name="jaxonvision" address="vmachine" env-loader="/home/leus/catkin_ws/jaxon_tutorial/devel/env.sh" unless="$(arg simulator)"/>
   <arg name="MACHINE" default="jaxonvision" unless="$(arg simulator)"/>
 
@@ -54,6 +54,6 @@
     </node>
   </group>
 
-  <node name="$(arg server_name)" pkg="matsuura_hand" type="dynamixel_joint_trajectory_server.py"
+  <node name="$(arg server_name)" pkg="msl_hand_controller" type="dynamixel_joint_trajectory_server.py"
     required="true" output="screen" args="$(arg namespace) $(arg config_file) $(arg min_max_file)" />
 </launch>

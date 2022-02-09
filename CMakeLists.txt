@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(matsuura_hand)
+project(msl_hand_controller)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
 # add_compile_options(-std=c++11)
@@ -44,19 +44,19 @@ foreach(link IN LISTS link_list)
 endforeach()
 
 # generate normal model for hrpsys
-file(READ ${PROJECT_SOURCE_DIR}/models/matsuura_hand_main_r.wrl.in  RHAND_DESCRIPTION)
-file(READ ${PROJECT_SOURCE_DIR}/models/matsuura_hand_main_l.wrl.in  LHAND_DESCRIPTION)
+file(READ ${PROJECT_SOURCE_DIR}/models/msl_hand_main_r.wrl.in  RHAND_DESCRIPTION)
+file(READ ${PROJECT_SOURCE_DIR}/models/msl_hand_main_l.wrl.in  LHAND_DESCRIPTION)
 file(READ /dev/null                                       BASE_DESCRIPTION)
 
 #insert *_MASS_PROP to mass prop in wrl.in file and make wrl file
-configure_file(${PROJECT_SOURCE_DIR}/models/matsuura_hand_main_r.wrl.in ${PROJECT_SOURCE_DIR}/models/matsuura_hand_main_r.wrl @ONLY)
-configure_file(${PROJECT_SOURCE_DIR}/models/matsuura_hand_main_l.wrl.in ${PROJECT_SOURCE_DIR}/models/matsuura_hand_main_l.wrl @ONLY)
-execute_process( COMMAND sed -i "1i \#AUTO GENERATED FILE, DON'T EDIT THIS" ${PROJECT_SOURCE_DIR}/models/matsuura_hand_main_r.wrl )
-execute_process( COMMAND sed -i "1i \#AUTO GENERATED FILE, DON'T EDIT THIS" ${PROJECT_SOURCE_DIR}/models/matsuura_hand_main_l.wrl )
+configure_file(${PROJECT_SOURCE_DIR}/models/msl_hand_main_r.wrl.in ${PROJECT_SOURCE_DIR}/models/msl_hand_main_r.wrl @ONLY)
+configure_file(${PROJECT_SOURCE_DIR}/models/msl_hand_main_l.wrl.in ${PROJECT_SOURCE_DIR}/models/msl_hand_main_l.wrl @ONLY)
+execute_process( COMMAND sed -i "1i \#AUTO GENERATED FILE, DON'T EDIT THIS" ${PROJECT_SOURCE_DIR}/models/msl_hand_main_r.wrl )
+execute_process( COMMAND sed -i "1i \#AUTO GENERATED FILE, DON'T EDIT THIS" ${PROJECT_SOURCE_DIR}/models/msl_hand_main_l.wrl )
 
 # make eusmodel
-compile_openhrp_model(${PROJECT_SOURCE_DIR}/models/matsuura_hand_main_r.wrl MATSUURA_HAND_R)
-compile_openhrp_model(${PROJECT_SOURCE_DIR}/models/matsuura_hand_main_l.wrl MATSUURA_HAND_L)
+compile_openhrp_model(${PROJECT_SOURCE_DIR}/models/msl_hand_main_r.wrl MSL_HAND_R)
+compile_openhrp_model(${PROJECT_SOURCE_DIR}/models/msl_hand_main_l.wrl MSL_HAND_L)
 
 
 # find_package(Boost REQUIRED COMPONENTS system)
