@@ -1,11 +1,11 @@
 <launch>
   <arg name="simulator" default="false"/>
   <arg name="MACHINE" default="jaxonvision" unless="$(arg simulator)"/>
-  <include file="$(find matsuura_hand)/launch/hand_controller_startup.launch">
+  <include file="$(find msl_hand_controller)/launch/hand_controller_startup.launch">
     <arg name="namespace" value="right_hand_controller"/>
-    <arg name="config_file" value="$(find matsuura_hand)/config/right_hand.yaml"/>
-    <arg name="min_max_file" value="$(find matsuura_hand)/config/right_min_max.yaml"/>
-    <arg name="usb_port" value="/dev/MatsuuraHandR"/>
+    <arg name="config_file" value="$(find msl_hand_controller)/config/right_hand.yaml"/>
+    <arg name="min_max_file" value="$(find msl_hand_controller)/config/right_min_max.yaml"/>
+    <arg name="usb_port" value="/dev/MslHandR"/>
     <arg name="server_name" value="rhand_dynamixel_joint_trajectory_server"/>
     <arg name="simulator" value="$(arg simulator)" />
     <arg name="MACHINE" value="$(arg MACHINE)" unless="$(arg simulator)"/>

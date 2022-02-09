@@ -1,15 +1,15 @@
 (load "package://pr2eus/robot-interface.l")
-(require :mhand_r "package://matsuura_hand/models/matsuura_hand_r.l")
+(require :mhand_r "package://msl_hand_controller/models/msl_hand_r.l")
 (ros::load-ros-manifest "control_msgs")
 
-(defclass matsuura_hand_r-interface
+(defclass msl_hand_r-interface
   :super robot-interface;;rtm-ros-robot-interface
   :slots ())
-(defmethod matsuura_hand_r-interface
+(defmethod msl_hand_r-interface
   (:init
     (&rest args &key ((:controller-timeout ct) 5))
     (prog1
-      (send-super* :init :robot matsuura_hand_r-robot :controller-timeout ct :joint-states-topic "/right_hand_controller/joint_states" args)
+      (send-super* :init :robot msl_hand_r-robot :controller-timeout ct :joint-states-topic "/right_hand_controller/joint_states" args)
       )
     )
   (:default-controller
@@ -145,7 +145,7 @@
 
 (defun mhand_r-init (&rest args)
   (if (not (boundp '*ri*))
-    (setq *ri* (instance* matsuura_hand_r-interface :init args)))
+    (setq *ri* (instance* msl_hand_r-interface :init args)))
   (if (not (boundp '*mhand_r*))
-    (setq *mhand_r* (instance matsuura_hand_r-robot :init)))
+    (setq *mhand_r* (instance msl_hand_r-robot :init)))
   )

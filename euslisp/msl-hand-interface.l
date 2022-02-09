@@ -1,12 +1,12 @@
-(load "package://matsuura_hand/euslisp/mhand_r-interface.l")
-(load "package://matsuura_hand/euslisp/mhand_l-interface.l")
+(load "package://msl_hand_controller/euslisp/mhand_r-interface.l")
+(load "package://msl_hand_controller/euslisp/mhand_l-interface.l")
 
 (defun matsuura-hand-init (&key (realp t))
-  (setq *rhand* (instance matsuura_hand_r-robot :init))
-  (setq *lhand* (instance matsuura_hand_l-robot :init))
+  (setq *rhand* (instance msl_hand_r-robot :init))
+  (setq *lhand* (instance msl_hand_l-robot :init))
   (when realp
-    (setq *rhand-ri* (instance* matsuura_hand_r-interface :init nil))
-    (setq *lhand-ri* (instance* matsuura_hand_l-interface :init nil))
+    (setq *rhand-ri* (instance* msl_hand_r-interface :init nil))
+    (setq *lhand-ri* (instance* msl_hand_l-interface :init nil))
     )
   )
 
