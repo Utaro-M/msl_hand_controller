@@ -290,12 +290,12 @@ Viewpoint {
 
 DEF MATSUURA_HAND_L Humanoid {
   humanoidBody [
-    DEF HANDBASE Joint {
+    DEF HANDBASE_L Joint {
       jointType "free"
         jointAxis 0 0 0
         translation 0 0 0
         children [
-        DEF HANDBASE Segment {
+        DEF HANDBASE_L Segment {
 ########## R_PALM_LINK0 MASS PROPERTY ##########
 mass 1.22366
 centerOfMass 0.09829 0.00402 -0.00197
@@ -304,13 +304,13 @@ momentsOfInertia [0.00198 0.00044 -0.00015 0.00044 0.00506 0.00005 -0.00015 0.
             children [
             Inline { url "exchanged_wrl/L_PALM_LINK0.wrl" }
           ]
-        } #End of HANDBASE
+        } #End of HANDBASE_L
       DEF L_THUMB_JOINT0 Joint {
         translation 0.03837 0.0045 0.03345 # 0.0415 -0.00425 0.069
           jointId 0
           jointType "rotate"
           jointAxis 1 0 0
-          ulimit [1.58]
+          ulimit [2.1]
           llimit [0.0]
           uvlimit 3.14
           lvlimit -3.14
@@ -330,7 +330,7 @@ momentsOfInertia [0.00004 0 0.00000 0 0.00004 0 0.00000 0 0.00003]
             jointId 1
             jointType "rotate"
             jointAxis 0 1 0
-            ulimit [0.0]
+            ulimit [1.75]
             llimit [-1.58]
             uvlimit 3.14
             lvlimit -3.14
@@ -356,7 +356,7 @@ momentsOfInertia [0.00043 0 0.00010 0 0.00043 0 0.00010 0 0.00012]
           jointType "rotate"
           jointAxis 0 0 1
           ulimit [0]
-          llimit [-2.0]
+          llimit [-2.1]
           uvlimit 3.14
           lvlimit -3.14
           children [
@@ -376,7 +376,7 @@ momentsOfInertia [0.00007 -3e-05 0.00002 -3e-05 0.00014 0 0.00002 0 0.00013]
             jointType "rotate"
             jointAxis 0 0 1
             ulimit [1.58]
-            llimit [-1.58]
+            llimit [-1.75]
             uvlimit 3.14
             lvlimit -3.14
             rotation 0 1 0 0 #-1.5705
@@ -404,8 +404,8 @@ momentsOfInertia [0.00003 -1e-05 0.00000 -1e-05 0.00005 0 0.00000 0 0.00004]
           jointId 4
           jointType "rotate"
           jointAxis 0 0 1
-          ulimit [-2.0]
-          llimit [0.0]
+          ulimit [0.0]
+          llimit [-2.1]
           uvlimit 3.14
           lvlimit -3.14
           children [
@@ -422,13 +422,13 @@ momentsOfInertia [0.00017 -0.00014 -0.00004 -0.00014 0.00040 1e-05 -0.00004 1e-
         ]
       } #End of L_MIDDLE_JOINT0
       DEF L_LOCK_JOINT0 Joint {
-        translation 0.10537 -0.00475 0 #0.16331 0.021 -0.03345 #0.15453 0.01618 0.045
+        translation 0.10537 0.00475 0 #0.16331 0.021 -0.03345 #0.15453 0.01618 0.045
         # translation 0.15453 0.01618 -0.045
           jointId 5
           jointType "rotate"
           jointAxis 0 0 1
-          ulimit [1.0]
-          llimit [0.0]
+          ulimit [0.0]
+          llimit [-0.25]
           uvlimit 3.14
           lvlimit -3.14
           children [
@@ -441,24 +441,26 @@ momentsOfInertia [0.00017 -0.00014 -0.00004 -0.00014 0.00040 1e-05 -0.00004 1e-
         ]
       } #End of L_LOCK_JOINT0
       ]
-    } #End of HANDBASE
+    } #End of HANDBASE_L
   ]
 
   joints [
-    USE HANDBASE,
+    USE HANDBASE_L,
     USE L_THUMB_JOINT0,
     USE L_THUMB_JOINT1,
     USE L_INDEX_JOINT0,
     USE L_INDEX_JOINT1,
-    USE L_MIDDLE_JOINT0
+    USE L_MIDDLE_JOINT0,
+    USE L_LOCK_JOINT0
   ] #joints
 
   segments [
-    USE HANDBASE
+    USE HANDBASE_L
     USE L_THUMB_LINK0,
     USE L_THUMB_LINK1,
     USE L_INDEX_LINK0,
     USE L_INDEX_LINK1,
-    USE L_MIDDLE_LINK0
+    USE L_MIDDLE_LINK0,
+    USE L_LOCK_LINK0
   ] #segments
 } #End of Humanoid
