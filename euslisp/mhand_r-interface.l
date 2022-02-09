@@ -141,6 +141,46 @@
        (send goal :goal :trajectory :points goal-points)
      (send caction :send-goal goal)
      )))
+
+  ;;lock each finger in each angle
+  (:finger-lock
+   (&key (lock-angle #f(90)) (effort #f(1 1 1 1 1 0.1)) (send? nil))
+   (format t "set :lock-angles like #f(90 90)~%")
+   (if (not (memq (elt lock-angles 0) (list 0.0 60.0 90.0 120.0)))
+       (progn
+         (format t "please set lock-angle in 0 60 90 120 ~%")
+         (return-from :finger-lock nil)))
+
+   (when (boundp '*rhand-ri*)
+     (format t "rarm lock motion~%")
+     (setq lock-motion '()
+           rhand-ri-angle (send *rhand-ri* :state :angle-vector))
+
+     ;;reset finger angle
+     (replace rhand-ri-angle (float-vector (* +1 120)) :start1 2)
+     (replace rhand-ri-angle (float-vector (* +1 120)) :start1 4)
+      (replace rhand-ri-angle #f(0.0) :start1 5)
+      (setq lock-motion (list-insert (copy-seq rhand-ri-angle) 3 lock-motion))
+      ;; send index, middle joint angle (lock-angle-20)
+      (replace rhand-ri-angle (float-vector (* +1 (if (equal (elt lock-angles 0) 0) 0 (- (elt lock-angles 0) 20)))) :start1 2)
+      (replace rhand-ri-angle (float-vector (* +1 (if (equal (elt lock-angles 1) 0) 0 (- (elt lock-angles 1) 20)))) :start1 4)
+      (replace rhand-ri-angle #f(0.0) :start1 5)
+      (setq lock-motion (list-insert (copy-seq rhand-ri-angle) 3 lock-motion))
+      ;;send lock-joint angle 14
+      (replace rhand-ri-angle (if (equal lock-angles #f(0.0 0.0)) #f(0.0) #f(14.0)) :start1 5)
+      (setq lock-motion (list-insert (copy-seq rhand-ri-angle) 3 lock-motion))
+      ;; send index, middle joint angle (lock-angle-30)
+      (replace rhand-ri-angle (float-vector (* +1 (if (equal (elt lock-angles 0) 0) 0 (- (elt lock-angles 0) 30)))) :start1 2)
+      (replace rhand-ri-angle (float-vector (* +1 (if (equal (elt lock-angles 1) 0) 0 (- (elt lock-angles 1) 30)))) :start1 4)
+      (setq lock-motion (list-insert (copy-seq rhand-ri-angle) 3 lock-motion))
+
+      (dotimes (i (length lock-motion))
+        (send *rhand* :angle-vector (pop lock-motion))
+        (if send?
+            (progn
+              (send *rhand-ri* :angle-vector-with-effort (send *rhand* :angle-vector) effort 500)
+              (send *rhand-ri* :wait-interpolation)))
+        (unix:usleep 2000))))
   )
 
 (defun mhand_r-init (&rest args)
