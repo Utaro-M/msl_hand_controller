@@ -1,0 +1,118 @@
+(load "package://matsuura_hand/euslisp/mhand_r-interface.l")
+(load "package://matsuura_hand/euslisp/mhand_l-interface.l")
+
+(ros::roseus "manus_node")
+
+(defclass manus-node
+  :super propertied-object
+  :slots (ns vibration-msg)
+  )
+
+(defmethod manus-node
+  (:init (&key (realp t) (name-space "manus"))
+         (setq ns name-space)
+         ;; (setq *rhand* (instance matsuura_hand_r-robot :init))
+         ;; (setq *lhand* (instance matsuura_hand_l-robot :init))
+         (setq *mhand_r* (instance matsuura_hand_r-robot :init))
+         (setq *mhand_l* (instance matsuura_hand_l-robot :init))
+         (setq vibration-msg (instance std_msgs::Float32MultiArray :init))
+         (when realp
+           (setq *rhand-ri* (instance* matsuura_hand_r-interface :init nil))
+           (setq *lhand-ri* (instance* matsuura_hand_l-interface :init nil))
+           )
+         ;; subscribe finger angle vector from gloves
+         (ros::subscribe (format nil "/~A/r_angles" ns) std_msgs::string #'send self :r-angles-cb)
+         (ros::subscribe (format nil "/~A/l_angles" ns) std_msgs::string #'send self :l-angles-cb)
+         ;; subscribe vector from tactile sensors
+         (ros::subscribe "/mag_inference_data_array" std_msgs::int32multiarray #'send self :r-tactile-cb)
+         ;; (ros::subscribe "/mag_inference_data_array" std_msgs/Int32MultiArray #'send self :l-tactile-cb)
+         ;; subscribe dynamixel current
+         ;; (ros::subscribe (format nil "/~A/dynamixel_state" ns) DynamixelStateList,  #'send self :state_cb)
+         ;; publish vibration
+         (ros::advertise (format nil "/~A/right_hand/rumble" ns) std_msgs::Float32MultiArray 1)
+         (ros::advertise (format nil "/~A/left_hand/rumble" ns) std_msgs::Float32MultiArray 1)
+         ;; (send self :test)
+         self)
+  (:r-angles-cb (msg)
+                   (cond
+                    (((send msg :)
+                      (send *rhand* :angle-vector #f(-90 95 30)))
+                     (()
+                      (send *rhand* :angle-vector #f(-90 95 30)))
+                     (()
+                      (send *rhand* :angle-vector #f(-90 95 30)))
+                     ))
+                    (send *rhand-ri* :angle-vector-with-effort (send *rhand* :angle-vector) effort 500)
+                    (send *rhand-ri* :wait-interpolation)
+                    )
+  (:l-angles-cb (msg)
+                )
+  (:r-tactile-cb (tactile-msg)
+                 (send vibration-msg :data (send self :calc-intencity (send tactile-msg :data)))
+                 (ros::publish (format nil "/~A/right_hand/rumble" ns) vibration-msg)
+                 )
+  (:l-tactile-cb (tactile-msg)
+                 (send vibration-msg :data (send self :calc-intencity (send tactile-msg :data)))
+                 (ros::publish (format nil "/~A/left_hand/rumble" ns) vibration-msg)
+                 )
+  (:state-callback ()
+                   )
+  (:calc-intencity (data)
+                   (setq sum-fx 0
+                         sum-fy 0
+                         sum-fz 0
+                         intencity '(0.0 0.0 0.0 0.0 0.0)
+                         )
+                   (setq f-list '())
+                   (dotimes (i (length data))
+                     (progn
+                       (cond
+                        ((< i 12)
+                         (setq f (* (/ (- (/ (aref data i) 256.0) 0.05) 0.9) 45)) 
+                         )
+                        ((and (< 11 i)) ;; (< i 24))
+                         ;; (vector-push (aref data i) fx-vec)
+                         (setq f (- (* (/ (aref data i) 256.0) 20) 10)))
+                        )
+                       ;; ((< 23 i )
+                       ;; (vector-push (aref data i) fy-vec)
+                       (push f f-list)
+                       ))
+                   (dotimes (i (/ (length f-list) 3))
+                     (setq sum-fx (+ (elt f-list i) sum-fx))
+                     (setq sum-fy (+ (elt f-list (+ 12 i)) sum-fy))
+                     (setq sum-fz (+ (elt f-list (+ 24 i)) sum-fz)))
+                   ;; (format t "sum-fx = ~A " sum-fx)
+                   ;; (format t "sum-fy = ~A " sum-fy)
+                   ;; (format t "sum-fz = ~A~%" sum-fz)
+                   (cond
+                    ((< 5 (abs sum-fx))
+                     (setq intencity '(1.0 0.0 0.0 0.0 0.0))
+                     )
+                    ((< 5 (abs sum-fy))
+                     (setq intencity '(0.0 0.0 1.0 0.0 0.0))
+                     )
+                    ((< 5 (abs sum-fz))
+                     (setq intencity '(0.0 0.0 0.0 0.0 1.0))
+                     ))
+                   (format t "calc-intencity ~A~%" intencity)
+                   intencity
+                   )
+  (:test ()
+         ;; (format t "in test func~%")
+         (setq vibration-msg (instance std_msgs::Float32MultiArray :init))
+         ;; (send vibration-msg :layout :dim :size 5)
+         ;; (send vibration-msg :data (list #f(1.0 1.0 0 0 1.0) #f(1.0 1.0 0 0 1.0)))
+         (send vibration-msg :data #f(1.0 1.0 0 0 1.0))
+         ;; (dotimes (i 10)
+           (ros::publish (format nil "/~A/left_hand/rumble" ns) vibration-msg))
+         ;; )
+  )
+
+(setq m (instance manus-node :init))
+
+(do-until-key
+ ;; (send m :test)
+ (ros::spin-once)
+ ;;(sys::gc)
+)
