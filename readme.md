@@ -12,9 +12,10 @@
 Solidworksで各リンクのアセンブリを開いて(全身アセンブリで選択しただけではダメ)評価→質量特性→ｵﾌﾟｼｮﾝ→単位→ﾕｰｻﾞｰ定義→長さm,少数位数５，質量ｷﾛｸﾞﾗﾑ，容積meters^3にしてから，値をクリップボードにコピーしてwrlディレクトリ内のall_mass_props_from_solidworks.txtに適当に貼り付けてから`./parse_mass_props.sh`を実行するとVRML記法のall_mass_props_for_vrml.txtが生成されるので，TABLISmain.wrl.in内にコピペしていく．
 
 # manus gloveの起動手順
+1. linuxでrossetlocal,rossetip,roscoreを立ち上げる
 1. windowsでros対応のshellを立ち上げる
-1. win_roscore.batを実行しroscoreを上げる
-1. win_manus_ros_node.batを実行しmanus_ros_nodeを上げる
+1. win_manus_ros_node.batを実行しmanus_ros_nodeを上げる(ipconfigでipアドレスを確認、変更)
+1. linuxでmanus_node.lを立ち上げる
 - /manus/left_hand/joint_states: 関節角度列
 - /manus/left_hand/rumble: 振動司令
 
