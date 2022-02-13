@@ -1,5 +1,5 @@
 # Matsuura Hand
-<!-- ### TABLISmain.wrl -->
+
 # モデルの変換手順
 1. solidworksの外観からRGBの色を指定(個別パーツごとに指定する必要あり)
 1. solidworksからVRML出力(指定保存→ｵﾌﾟｼｮﾝ→VRML97→ﾄﾞｷｭﾒﾝﾄﾌﾟﾛﾊﾟﾃｨ→ｲﾒｰｼﾞ品質→スライドバー最低設定)
@@ -28,7 +28,7 @@ Solidworksで各リンクのアセンブリを開いて(全身アセンブリで
   config/*_min_max.yamlはserver.pyで使用）
 - dynamixelモータのposition 180度がeusなどからの司令時の0度に対応している？
   (homing offsetの設定はこれを考慮しwizardでeus等で0度としたい角度で１positionが180度となるように決めれば良い)
-- モータをつけ直した際はwizardｆで可動域を確認する
+- モータをつけ直した際はwizardで可動域を確認する
 ## build
 - configやモデルを更新した際のcatkin build時は、古い生成ファイルが残ったままだと新しく生成されないため、削除してからビルドすること
  （matsuura_hand_l.l、（大文字）.*ファイルなど）
