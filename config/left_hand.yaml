@@ -4,19 +4,20 @@ L_THUMB_JOINT0:
   ID: 7
   Return_Delay_Time: 0
   Operating_Mode: 5
-  Current_Limit: 740
+  Current_Limit: 1480 # 740
   Homing_Offset: 0
+  Velocity_Limit: 1000
 L_THUMB_JOINT1:
   ID: 8
   Return_Delay_Time: 0
   Operating_Mode: 5
-  Current_Limit: 740
+  Current_Limit: 1480 # 740
   Homing_Offset: 0
 L_INDEX_JOINT0:
   ID: 9
   Return_Delay_Time: 0
   Operating_Mode: 5
-  Current_Limit: 740
+  Current_Limit: 1480 # 740
   Homing_Offset: -341
 L_INDEX_JOINT1:
   ID: 10
@@ -29,7 +30,7 @@ L_MIDDLE_JOINT0:
   Return_Delay_Time: 0
   Operating_Mode: 5
   Drive_Mode: 1
-  Current_Limit: 740
+  Current_Limit: 1480 # 740
   Homing_Offset: 341
 L_LOCK_JOINT0:
   ID: 12

@@ -1,13 +1,12 @@
 ##left hand position limit
-
 L_THUMB_JOINT0:
   ID: 7
-  Min_Pos: 0.0
+  Min_Pos: -5.0
   Max_Pos: 120.0
 L_THUMB_JOINT1:
   ID: 8
   Min_Pos: -90.0
-  Max_Pos: 100.0
+  Max_Pos: 120.0
 L_INDEX_JOINT0:
   ID: 9
   Min_Pos: -120.0
@@ -19,8 +18,8 @@ L_INDEX_JOINT1:
 L_MIDDLE_JOINT0:
   ID: 11
   Min_Pos: -120.0
-  Max_Pos: 0.0
+  Max_Pos: 5.0
 L_LOCK_JOINT0:
   ID: 12
   Min_Pos: -14.0
-  Max_Pos: 0.0
+  Max_Pos: 1.0

@@ -288,7 +288,7 @@ Viewpoint {
     orientation 0.5770 0.5775 0.5775 2.0935
 }
 
-DEF MATSUURA_HAND_L Humanoid {
+DEF MSL_HAND_L Humanoid {
   humanoidBody [
     DEF HANDBASE_L Joint {
       jointType "free"

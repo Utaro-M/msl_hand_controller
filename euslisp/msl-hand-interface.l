@@ -11,7 +11,7 @@
   )
 
 ;;lock each finger in each angle
-(defun finger-lock (arm &key (lock-angles #f(90 90)) (effort #f(1 1 1 1 1 0.1)) (send? nil))
+(defun finger-lock (arm &key (lock-angles #f(90 90)) (effort #f(0.8 0.8 0.8 0.8 0.8 0.1)) (send? nil))
   (if (equal (length lock-angles) 1)
       (progn
         (format t "set :lock-angles like #f(90 90)~%")
@@ -29,6 +29,7 @@
 
       ;;reset finger angle
       (replace rhand-ri-angle (float-vector (* +1 120)) :start1 2)
+      (replace rhand-ri-angle #f(0.0) :start1 3)
       (replace rhand-ri-angle (float-vector (* +1 120)) :start1 4)
       (replace rhand-ri-angle #f(0.0) :start1 5)
       (setq lock-motion (list-insert (copy-seq rhand-ri-angle) 3 lock-motion))
@@ -49,7 +50,7 @@
         (send *rhand* :angle-vector (pop lock-motion))
         (if send?
             (progn
-              (send *rhand-ri* :angle-vector-with-effort (send *rhand* :angle-vector) effort 500)
+              (send *rhand-ri* :angle-vector-with-effort (send *rhand* :angle-vector) effort 100)
               (send *rhand-ri* :wait-interpolation)))
         (unix:usleep 2000))))
 
@@ -60,6 +61,7 @@
             lhand-ri-angle (send *lhand-ri* :state :angle-vector))
       ;;reset finger angle
       (replace lhand-ri-angle (float-vector (* -1 120)) :start1 2)
+      (replace lhand-ri-angle #f(0.0) :start1 3)
       (replace lhand-ri-angle (float-vector (* -1 120)) :start1 4)
       (replace lhand-ri-angle #f(0.0) :start1 5)
       (setq lock-motion (list-insert (copy-seq lhand-ri-angle) 3 lock-motion))
@@ -74,6 +76,62 @@
       ;; send index, middle joint angle (lock-angle+30)
       (replace lhand-ri-angle (float-vector (* -1 (if (equal (elt lock-angles 0) 0) 0 (- (elt lock-angles 0) 30)))) :start1 2)
       (replace lhand-ri-angle (float-vector (* -1 (if (equal (elt lock-angles 1) 0) 0 (- (elt lock-angles 1) 30)))) :start1 4)
+      (setq lock-motion (list-insert (copy-seq lhand-ri-angle) 3 lock-motion))
+
+      (dotimes (i (length lock-motion))
+        (send *lhand* :angle-vector (pop lock-motion))
+        (if send?
+            (progn
+              (send *lhand-ri* :angle-vector-with-effort (send *lhand* :angle-vector) effort 500)
+              (send *lhand-ri* :wait-interpolation)))
+        (unix:usleep 2000)))))
+
+(defun release-finger(arm &key (effort #f(0.8 0.8 0.8 0.8 0.8 0.1)) (send? nil))
+  (when (or (eq arm :rarm) (eq arm :arms))
+    (when (boundp '*rhand-ri*)
+      (format t "rarm release motion~%")
+      (setq lock-motion '()
+            rhand-ri-angle (send *rhand-ri* :state :angle-vector)
+            rhand-ri-angle-save (copy-seq rhand-ri-angle))
+
+      ;;reset finger angle
+      (replace rhand-ri-angle (float-vector (* +1 120)) :start1 2)
+      (replace rhand-ri-angle #f(0.0) :start1 3)
+      (replace rhand-ri-angle (float-vector (* +1 120)) :start1 4)
+      (replace rhand-ri-angle #f(0.0) :start1 5)
+      (setq lock-motion (list-insert (copy-seq rhand-ri-angle) 3 lock-motion))
+
+      ;; return saved angle
+      (replace rhand-ri-angle (float-vector (elt  rhand-ri-angle-save 2))  :start1 2)
+      (replace rhand-ri-angle (float-vector (elt  rhand-ri-angle-save 3)) :start1 3)
+      (replace rhand-ri-angle (float-vector (elt  rhand-ri-angle-save 4)) :start1 4)
+      (setq lock-motion (list-insert (copy-seq rhand-ri-angle) 3 lock-motion))
+
+      (dotimes (i (length lock-motion))
+        (send *rhand* :angle-vector (pop lock-motion))
+        (if send?
+            (progn
+              (send *rhand-ri* :angle-vector-with-effort (send *rhand* :angle-vector) effort 100)
+              (send *rhand-ri* :wait-interpolation)))
+        (unix:usleep 2000))))
+
+  (when (or (eq arm :larm) (eq arm :arms))
+    (when (boundp '*lhand-ri*)
+      (format t "larm release motion~%")
+      (setq lock-motion '()
+            lhand-ri-angle (send *lhand-ri* :state :angle-vector)
+            lhand-ri-angle-save (copy-seq lhand-ri-angle))
+      ;;reset finger angle
+      (replace lhand-ri-angle (float-vector (* -1 120)) :start1 2)
+      (replace lhand-ri-angle #f(0.0) :start1 3)
+      (replace lhand-ri-angle (float-vector (* -1 120)) :start1 4)
+      (replace lhand-ri-angle #f(0.0) :start1 5)
+      (setq lock-motion (list-insert (copy-seq lhand-ri-angle) 3 lock-motion))
+
+      ;; return saved angle
+      (replace lhand-ri-angle (float-vector (elt  lhand-ri-angle-save 2))  :start1 2)
+      (replace lhand-ri-angle (float-vector (elt  lhand-ri-angle-save 3)) :start1 3)
+      (replace lhand-ri-angle (float-vector (elt  lhand-ri-angle-save 4)) :start1 4)
       (setq lock-motion (list-insert (copy-seq lhand-ri-angle) 3 lock-motion))
 
       (dotimes (i (length lock-motion))
