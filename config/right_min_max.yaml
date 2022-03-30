@@ -17,7 +17,7 @@ R_INDEX_JOINT1:
   Max_Pos: 100.0
 R_MIDDLE_JOINT0:
   ID: 5
-  Min_Pos: 5.0
+  Min_Pos: 0.0
   Max_Pos: 120.0
 R_LOCK_JOINT0:
   ID: 6
