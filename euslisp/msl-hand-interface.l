@@ -4,14 +4,20 @@
 (defun msl-hand-init (&key (realp t))
   (setq *rhand* (instance msl_hand_r-robot :init))
   (setq *lhand* (instance msl_hand_l-robot :init))
+  (send *lhand* :angle-vector #f(0 90 0 0 0 0))
+  (send *rhand* :angle-vector #f(0 90 0 0 0 0))
   (when realp
     (setq *rhand-ri* (instance* msl_hand_r-interface :init nil))
     (setq *lhand-ri* (instance* msl_hand_l-interface :init nil))
+    (send *rhand-ri* :angle-vector-with-effort #f(0 90 0 0 0 0)  #f(0.2 0.2 0.2 0.2 0.2 0.1) 1000)
+    (send *rhand-ri* :wait-interpolation)
+    (send *lhand-ri* :angle-vector-with-effort #f(0 90 0 0 0 0)  #f(0.2 0.2 0.2 0.2 0.2 0.1) 1000)
+    (send *rhand-ri* :wait-interpolation)
     )
   )
 
 ;;lock each finger in each angle
-(defun finger-lock (arm &key (lock-angles #f(90 90)) (effort #f(0.8 0.8 0.8 0.8 0.8 0.1)) (send? nil))
+(defun lock-finger (arm &key (lock-angles #f(90 90)) (effort #f(0.2 0.2 0.2 0.2 0.2 0.1)) (send? nil))
   (if (equal (length lock-angles) 1)
       (progn
         (format t "set :lock-angles like #f(90 90)~%")
@@ -50,7 +56,7 @@
         (send *rhand* :angle-vector (pop lock-motion))
         (if send?
             (progn
-              (send *rhand-ri* :angle-vector-with-effort (send *rhand* :angle-vector) effort 100)
+              (send *rhand-ri* :angle-vector-with-effort (send *rhand* :angle-vector) effort 400)
               (send *rhand-ri* :wait-interpolation)))
         (unix:usleep 2000))))
 
@@ -82,11 +88,11 @@
         (send *lhand* :angle-vector (pop lock-motion))
         (if send?
             (progn
-              (send *lhand-ri* :angle-vector-with-effort (send *lhand* :angle-vector) effort 500)
+              (send *lhand-ri* :angle-vector-with-effort (send *lhand* :angle-vector) effort 400)
               (send *lhand-ri* :wait-interpolation)))
         (unix:usleep 2000)))))
 
-(defun release-finger(arm &key (effort #f(0.8 0.8 0.8 0.8 0.8 0.1)) (send? nil))
+(defun release-finger(arm &key (effort #f(0.2 0.2 0.2 0.2 0.2 0.1)) (send? nil))
   (when (or (eq arm :rarm) (eq arm :arms))
     (when (boundp '*rhand-ri*)
       (format t "rarm release motion~%")
@@ -111,7 +117,7 @@
         (send *rhand* :angle-vector (pop lock-motion))
         (if send?
             (progn
-              (send *rhand-ri* :angle-vector-with-effort (send *rhand* :angle-vector) effort 100)
+              (send *rhand-ri* :angle-vector-with-effort (send *rhand* :angle-vector) effort 400)
               (send *rhand-ri* :wait-interpolation)))
         (unix:usleep 2000))))
 
@@ -138,7 +144,7 @@
         (send *lhand* :angle-vector (pop lock-motion))
         (if send?
             (progn
-              (send *lhand-ri* :angle-vector-with-effort (send *lhand* :angle-vector) effort 500)
+              (send *lhand-ri* :angle-vector-with-effort (send *lhand* :angle-vector) effort 400)
               (send *lhand-ri* :wait-interpolation)))
         (unix:usleep 2000)))))
 

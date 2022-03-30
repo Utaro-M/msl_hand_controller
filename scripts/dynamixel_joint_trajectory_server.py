@@ -32,7 +32,7 @@ class DynamixelJointTrajectoryServer():
         self.dynamixel_state_sub = rospy.Subscriber('/' + ns + '/dynamixel_state', DynamixelStateList, self.state_callback)
         self.interpolatingp = False
         with open(self._conf_file) as f:
-            yml = yaml.load(f, Loader=yaml.FullLoader)
+            yml = yaml.load(f, Loader=yaml.SafeLoader)
             self._joint_names = yml.keys()
             self._current_limit = [yml[yml.keys()[0]]["Current_Limit"],
                                    yml[yml.keys()[1]]["Current_Limit"],
@@ -41,7 +41,7 @@ class DynamixelJointTrajectoryServer():
                                    yml[yml.keys()[4]]["Current_Limit"],
                                    yml[yml.keys()[5]]["Current_Limit"]]
         with open(self._min_max_file) as f:
-            self.min_max_yml = yaml.load(f, Loader=yaml.FullLoader)
+            self.min_max_yml = yaml.load(f, Loader=yaml.SafeLoader)
 
     def execute(self, goal):
         self.min_max_flag = True
