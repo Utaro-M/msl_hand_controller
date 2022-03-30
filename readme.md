@@ -19,6 +19,11 @@ Solidworksで各リンクのアセンブリを開いて(全身アセンブリで
 - /manus/left_hand/joint_states: 関節角度列
 - /manus/left_hand/rumble: 振動司令
 
+# 実機での実行手順
+1. lockが外れていること、ケーブルがかんでいないことを確認し、両手のスイッチをONにする
+1. scripts/start-matsuura.shを実行し制御PCからvisionPCにsshしてcontrollerのlaunchファイルを実行
+1. euslisp/msl-hand-interface.l を実行しmsl-hand-initを呼ぶ。
+
 # memo
 ## モデルファイルの変換
 - meshlabserver コマンドによるobjファイルの変換時にはobjファイルと同じディレクトリ内でコマンド実行の必要あり
