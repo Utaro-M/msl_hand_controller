@@ -1,5 +1,43 @@
 # Matsuura Hand
 
+# 実機での実行手順
+
+## 起動手順
+1. lockが外れていること、ケーブルがかんでいないことを確認し、両手のスイッチをONにする
+1. 以下のコマンドでscripts/start-matsuura.shを実行し制御PCからvisionPCにsshしてcontrollerのlaunchファイルを実行
+```
+cd ~
+./start-matsuura.sh ##~以下に無い場合はscripts/start-matsuura.shからコピーする
+```
+1. 以下のコマンドでeuslisp/msl-hand-interface.l を実行しmsl-hand-initを呼ぶ。
+```
+roscd msl_hand_controller/euslisp
+roseus msl-hand-interface.l
+(msl-hand-init) ##roseus
+```
+## msl-hand-interface.lの関数について
+1. (defun lock-finger (arm &key (lock-angles #f(90 90)) (effort #f(0.2 0.2 0.2 0.2 0.2 0.1)) (send? nil))
+   指をロックする
+   - arm 動かすハンドを指定 :larm or :rarm or :arms
+   - lock-angles ロックする角度を指定 #f(0 0) #f(60 60) #f(90 90) #f(120 120) #f(60 120)...
+   - effort モータの発揮effortを指定 #f(0.2 0.2 0.2 0.2 0.2 0.1)
+   - send? 実機に送るかどうかを指定
+```
+(lock-finger :rarm :lock-angles #f(90 90) :effort #f(0.2 0.2 0.2 0.2 0.2 0.1) :send? t)
+```
+1. (defun release-finger(arm &key (effort #f(0.2 0.2 0.2 0.2 0.2 0.1)) (send? nil))
+   ロックを解除する
+   - arm 動かすハンドを指定 :larm or :rarm or :arms
+   - effort モータの発揮effortを指定 #f(0.2 0.2 0.2 0.2 0.2 0.1)
+   - send? 実機に送るかどうかを指定
+```
+(release-finger :rarm :effort #f(0.2 0.2 0.2 0.2 0.2 0.1) :send? t)
+```
+
+## デバッグ
+- USBの抜き差しや電源の入り切りを試す
+- launch ファイルの上げ直し
+
 # モデルの変換手順
 1. solidworksの外観からRGBの色を指定(個別パーツごとに指定する必要あり)
 1. solidworksからVRML出力(指定保存→ｵﾌﾟｼｮﾝ→VRML97→ﾄﾞｷｭﾒﾝﾄﾌﾟﾛﾊﾟﾃｨ→ｲﾒｰｼﾞ品質→スライドバー最低設定)
@@ -18,11 +56,6 @@ Solidworksで各リンクのアセンブリを開いて(全身アセンブリで
 1. linuxでmanus_node.lを立ち上げる
 - /manus/left_hand/joint_states: 関節角度列
 - /manus/left_hand/rumble: 振動司令
-
-# 実機での実行手順
-1. lockが外れていること、ケーブルがかんでいないことを確認し、両手のスイッチをONにする
-1. scripts/start-matsuura.shを実行し制御PCからvisionPCにsshしてcontrollerのlaunchファイルを実行
-1. euslisp/msl-hand-interface.l を実行しmsl-hand-initを呼ぶ。
 
 # memo
 ## モデルファイルの変換
