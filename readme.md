@@ -11,6 +11,7 @@ cd ~
 ```
 1. 以下のコマンドでeuslisp/msl-hand-interface.l を実行しmsl-hand-initを呼ぶ。
 ```
+matsuura-source
 roscd msl_hand_controller/euslisp
 roseus msl-hand-interface.l
 (msl-hand-init) ##roseus
