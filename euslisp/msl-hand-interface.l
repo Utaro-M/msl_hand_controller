@@ -18,6 +18,7 @@
 
 ;;lock each finger in each angle
 (defun lock-finger (arm &key (lock-angles #f(90 90)) (effort #f(0.2 0.2 0.2 0.2 0.2 0.1)) (send? nil))
+  (release-finger :arm :effort effort :send? send?)
   (if (equal (length lock-angles) 1)
       (progn
         (format t "set :lock-angles like #f(90 90)~%")

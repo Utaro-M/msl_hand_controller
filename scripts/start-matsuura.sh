@@ -15,7 +15,7 @@ new-window servo "(sleep 1 && rosrun trans_vm joint_enable 14 0) & $(rospack fin
 # new-window servo "(sleep 1 && rosrun trans_vm joint_enable 14 0) & /home/leus/catkin_ws/jaxon_tutorial/src/trans_system/jaxon_ros_bridge/scripts/start-servo.sh"
 new-window hrpsys $(rospack find jaxon_ros_bridge)/scripts/start-hrpsys.sh
 new-window ros-bridge $(rospack find jaxon_ros_bridge)/scripts/start-ros-bridge.sh
-new-window hand $(rospack find jaxon_ros_bridge)/scripts/enable-bando_hands.sh
+# new-window hand $(rospack find jaxon_ros_bridge)/scripts/enable-bando_hands.sh
 #new-window wacoh "wacoh-source && roslaunch --wait trans_vm sample-start-wacoh.launch"
 new-window leg-sensor "roslaunch trans_vm jaxon-start-leptrino.launch"
 new-window hand-sensor "roslaunch trans_vm jaxon_start_hand_sensor.launch"
