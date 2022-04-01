@@ -12,7 +12,7 @@ rarm:
   # rotate    : [0.0, 1.0, 0.0, 90.0]
 
 angle-vector:
-  reset-pose : [0, 0, 0, 0, 0, 0]
-  open-pose :  [90, 0, 0, 0, 0, 0]
+  reset-pose : [0, 90, 0, 0, 0, 0]
+  grasp-pose : [-90, 0, 0, 0, 0, 0]
+  # open-pose :  [90, 0, 0, 0, 0, 0]
   # hook-pose : [90, 0, -30]
-  # grasp-pose : [90, 90, -120]
