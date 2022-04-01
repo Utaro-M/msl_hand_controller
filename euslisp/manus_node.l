@@ -22,8 +22,11 @@
            (setq *mslhand-l-ri* (instance* msl_hand_l-interface :init nil))
            )
          ;; subscribe finger angle vector from gloves
-         (ros::subscribe (format nil "/~A/right_hand/joint_states" ns) sensor_msgs::jointstate #'send self :r-angles-cb)
-         (ros::subscribe (format nil "/~A/left_hand/joint_states" ns) sensor_msgs::jointstate #'send self :l-angles-cb)
+         ;; (ros::subscribe (format nil "/~A/right_hand/joint_states" ns) sensor_msgs::jointstate #'send self :r-angles-cb)
+         ;; (ros::subscribe (format nil "/~A/left_hand/joint_states" ns) sensor_msgs::jointstate #'send self :l-angles-cb)
+         ;;for tablis
+         (ros::subscribe (format nil "/~A/right_hand/joint_states" ns) sensor_msgs::jointstate #'send self :r-angles-cb-tablis)
+         (ros::subscribe (format nil "/~A/left_hand/joint_states" ns) sensor_msgs::jointstate #'send self :l-angles-cb-tablis)
          ;; subscribe vector from tactile sensors
          (ros::subscribe "/mag_inference_data_array" std_msgs::int32multiarray #'send self :r-tactile-cb)
          ;; (ros::subscribe "/mag_inference_data_array" std_msgs/Int32MultiArray #'send self :l-tactile-cb)
@@ -43,9 +46,32 @@
                                     (elt (send msg :position) 11)
                                     0))
                 (send self :display)
-                (send *mslhand-r-ri* :angle-vector-with-effort (send *mslhand-r* :angle-vector) effort 500)
+                (send *mslhand-r-ri* :angle-vector-with-effort (send *mslhand-r* :angle-vector) effort 50)
                 ;; (send *mslhand-r-ri* :wait-interpolation)
                 )
+  (:r-angles-cb-tablis (msg)
+                       (cond ((< (elt (send msg :position) 0) 12)
+                              (cond
+                               ((< (elt (send msg :position) 11) 20)
+                                (send *mslhand-r* :angle-vector  #f(0.0 0.0 0.0 0.0 0.0 0.0)))
+                               ((< (elt (send msg :position) 11) 40)
+                                (send *mslhand-r* :angle-vector  #f(0.0 0.0 30.0 30.0 30.0 0.0)))
+                               ((< (elt (send msg :position) 11) 60)
+                                (send *mslhand-r* :angle-vector  #f(0.0 0.0 60.0 30.0 60.0 0.0)))
+                               (t
+                                (send *mslhand-r* :angle-vector  #f(0.0 0.0 90.0 30.0 90.0 0.0)))))
+                             (t
+                              (cond
+                               ((< (elt (send msg :position) 11) 20)
+                                (send *mslhand-r* :angle-vector  #f(-90.0 0.0 0.0 0.0 0.0 0.0)))
+                               ((< (elt (send msg :position) 11) 40)
+                                (send *mslhand-r* :angle-vector  #f(-90.0 0.0 30.0 30.0 30.0 0.0)))
+                               ((< (elt (send msg :position) 11) 60)
+                                (send *mslhand-r* :angle-vector  #f(-90.0 0.0 60.0 30.0 60.0 0.0)))
+                               (t
+                                (send *mslhand-r* :angle-vector  #f(-90.0 0.0 90.0 30.0 90.0 0.0))))))
+                       (send self :display)
+                       (send *mslhand-r-ri* :angle-vector-with-effort (send *mslhand-r* :angle-vector) effort 40))
   (:l-angles-cb (msg)
                 (send *mslhand-l* :angle-vector
                       (float-vector  (cond ((< (elt (send msg :position) 0) 3)  0) ((< (elt (send msg :position) 0) 6) 30) ((< (elt (send msg :position) 0) 12) 60) ((< (elt (send msg :position) 0) 24)  90) (t  120))
@@ -55,8 +81,31 @@
                                      (* -1 (elt (send msg :position) 11))
                                      0))
                 (send self :display)
-                (send *mslhand-l-ri* :angle-vector-with-effort (send *mslhand-l* :angle-vector) effort 500)
+                (send *mslhand-l-ri* :angle-vector-with-effort (send *mslhand-l* :angle-vector) effort 50)
                 )
+  (:l-angles-cb-tablis (msg)
+                       (cond ((< (elt (send msg :position) 0) 12)
+                              (cond
+                               ((< (elt (send msg :position) 11) 20)
+                                (send *mslhand-l* :angle-vector  #f(0.0 0.0 0.0 0.0 0.0 0.0)))
+                               ((< (elt (send msg :position) 11) 40)
+                                (send *mslhand-l* :angle-vector  #f(0.0 0.0 -30.0 -30.0 -30.0 0.0)))
+                               ((< (elt (send msg :position) 11) 60)
+                                (send *mslhand-l* :angle-vector  #f(0.0 0.0 -60.0 -30.0 -60.0 0.0)))
+                               (t
+                                (send *mslhand-l* :angle-vector  #f(0.0 0.0 -90.0 -30.0 -90.0 0.0)))))
+                             (t
+                              (cond
+                               ((< (elt (send msg :position) 11) 20)
+                                (send *mslhand-l* :angle-vector  #f(90 0.0 0.0 0.0 0.0 0.0)))
+                               ((< (elt (send msg :position) 11) 40)
+                                (send *mslhand-l* :angle-vector  #f(90 0.0 -30.0 -30.0 -30.0 0.0)))
+                               ((< (elt (send msg :position) 11) 60)
+                                (send *mslhand-l* :angle-vector  #f(90 0.0 -60.0 -30.0 -60.0 0.0)))
+                               (t
+                                (send *mslhand-l* :angle-vector  #f(90 0.0 -90.0 -30.0 -90.0 0.0))))))
+                       (send self :display)
+                       (send *mslhand-l-ri* :angle-vector-with-effort (send *mslhand-l* :angle-vector) effort 40))
   (:display ()
             (objects (list *mslhand-r* *mslhand-l*)))
   (:r-tactile-cb (tactile-msg)
