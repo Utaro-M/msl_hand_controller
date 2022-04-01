@@ -9,12 +9,39 @@
   (when realp
     (setq *rhand-ri* (instance* msl_hand_r-interface :init nil))
     (setq *lhand-ri* (instance* msl_hand_l-interface :init nil))
-    (send *rhand-ri* :angle-vector-with-effort #f(0 90 0 0 0 0)  #f(0.2 0.2 0.2 0.2 0.2 0.1) 1000)
-    (send *rhand-ri* :wait-interpolation)
-    (send *lhand-ri* :angle-vector-with-effort #f(0 90 0 0 0 0)  #f(0.2 0.2 0.2 0.2 0.2 0.1) 1000)
-    (send *rhand-ri* :wait-interpolation)
-    )
-  )
+    (reset-pose :rarm :send? t)
+    (reset-pose :larm :send? t)))
+
+(defun reset-pose(arm &key (effort #f(0.2 0.2 0.2 0.2 0.2 0.1)) (send? nil))
+  (format t "reset-pose")
+  (when (or (eq arm :rarm) (eq arm :arms))
+    (when (boundp '*rhand-ri*)
+      (send *rhand* :angle-vector #f(0 90 0 0 0 0))
+      (if send?
+          (progn
+            (send *rhand-ri* :angle-vector-with-effort (send *rhand* :angle-vector) effort 400)))))
+  (when (or (eq arm :larm) (eq arm :arms))
+    (when (boundp '*lhand-ri*)
+      (send *lhand* :angle-vector #f(0 90 0 0 0 0))
+      (if send?
+          (progn
+            (send *lhand-ri* :angle-vector-with-effort (send *lhand* :angle-vector) effort 400))))))
+
+(defun grasp-pose(arm &key (effort #f(0.2 0.2 0.2 0.2 0.2 0.1)) (send? nil))
+  (format t "grasp-pose")
+  (when (or (eq arm :rarm) (eq arm :arms))
+    (when (boundp '*rhand-ri*)
+      (send *rhand* :angle-vector #f(-90 0 0 0 0 0))
+      (if send?
+          (progn
+            (send *rhand-ri* :angle-vector-with-effort (send *rhand* :angle-vector) effort 400)))))
+  (when (or (eq arm :larm) (eq arm :arms))
+    (when (boundp '*lhand-ri*)
+      (send *lhand* :angle-vector #f(90 0 0 0 0 0))
+      (if send?
+          (progn
+            (send *lhand-ri* :angle-vector-with-effort (send *lhand* :angle-vector) effort 400))))))
+
 
 ;;lock each finger in each angle
 (defun lock-finger (arm &key (lock-angles #f(90 90)) (effort #f(0.2 0.2 0.2 0.2 0.2 0.1)) (send? nil))
