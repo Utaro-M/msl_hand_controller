@@ -1,0 +1,25 @@
+<launch>
+  <arg name="save_dir" default="$(env HOME)/Documents/hand_rosbag"/>
+  <arg name="bagfile_prefix" default="data" />
+  <arg name="camera_namespace" default="camera" />
+  <arg name="save_openni" default="false" />
+  <arg name="save_robot_model" default="true" />
+  <arg name="save_all_image" default="false" />
+  <arg name="save_multisense" default="false" />
+  <arg name="other_topics" default=""/>
+  <arg name="quiet" default="true"/>
+  <arg name="machine" default="localhost" />
+  <machine name="localhost" address="localhost" />
+  <param name="mk_save_dir" command="mkdir -p $(arg save_dir)" />
+
+  <arg name="node_name" default="default_rosbag_records" />
+
+  <node name="$(arg node_name)" pkg="rosbag" type="record"
+        machine="$(arg machine)"
+        args="/left_hand_controller/joint_states
+              /left_hand_controller/dynamixel_state
+              /left_hand_controller/current_over_flag
+              -o $(arg save_dir)/$(arg bagfile_prefix)
+              "/>
+
+</launch>
