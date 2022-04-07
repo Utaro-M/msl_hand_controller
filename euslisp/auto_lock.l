@@ -20,6 +20,7 @@
          (format t "~A current-threshold ~A~%" hand current-threshold)
          (format t "topic = ~A_hand_controller/joint_states~%" hand)
          (ros::subscribe (format nil "~A_hand_controller/joint_states" hand) sensor_msgs::JointState #'send self :call-back)
+         (ros::advertise (format nil "~A_hand_controller/current_over_flag" hand) std_msgs::Bool 1)
          self)
   (:call-back(msg)
              (setq current-value (send self :sort-by-name (send msg :effort) (send msg :name) ref-name-list))
@@ -40,12 +41,18 @@
                   (progn
                     (format t "[~A hand] stop motion~%" hand)
                     ;; (send (read-from-string (if (equal hand "left") (format nil "*lhand-ri*") (format nil "*rhand-ri*"))) :stop-motion)
+                    (setq res (instance std_msgs::Bool :init))
+                    (send res :data t)
+                    (ros::publish (format nil "~A_hand_controller/current_over_flag" hand) res)
+                    ;; (if (equal hand "left")
+                    ;;     (send *lhand-ri* :stop-motion)
+                    ;;   (send *rhand-ri* :stop-motion))
                     (format t "position-value=~A~%" position-value)
                     ;;index finger
                     (setq index-lock-angle (send self :nearest-angle (elt position-value 2) ref-angle-list))
                     ;;middle finger
                     (setq middle-lock-angle (send self :nearest-angle (elt position-value 4) ref-angle-list))
-                    (format t "lock-angles ~A~%"  (list index-lock-angle middle-lock-angle))
+                    ;; (format t "lock-angles ~A~%"  (list index-lock-angle middle-lock-angle))
                     ;; (lock-finger (read-from-string (format nil ":~A" hand)) :lock-angles (list index-lock-angle middle-lock-angle) :send? send?)
                     (setq current-over-count 0)
                     (setq current-over-flag nil))))

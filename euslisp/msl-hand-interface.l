@@ -176,6 +176,11 @@
               (send *lhand-ri* :wait-interpolation)))
         (unix:usleep 2000)))))
 
+(format t "~%(lock-finger :larm :lock-angles #f(60 60) :effort #f(0.2 0.2 0.2 0.2 0.2 0.1) :send? t)~%")
+(format t "~%(release-finger :larm :effort #f(0.2 0.2 0.2 0.2 0.2 0.1) :send? t)~%")
+(format t "~%reset-pose~%")
+(format t "~%grasp-pose~%")
+(format t "~%msl-hand-init~%")
 ;; (defun hand-grasp (arm &key (effort #(1 1 1)))
 ;;   (when (or (eq arm :rarm) (eq arm :arms))
 ;;     (when (boundp '*rhand-ri*)
