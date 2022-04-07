@@ -1,4 +1,29 @@
-# Matsuura Hand
+# MSL HAND
+
+# 環境構築
+- dynamixel パッケージのインストール
+```
+git clone https://github.com/ROBOTIS-GIT/dynamixel-workbench.git
+git clone https://github.com/ROBOTIS-GIT/dynamixel-workbench-msgs.git
+git clone https://github.com/ROBOTIS-GIT/DynamixelSDK.git
+cd [DynamixelSDK folder]/cpp/build/linux64
+make
+sudo make install
+cd [dynamixel-workbench folder]/dynamixel_workbench_toolbox/examples
+mkdir -p build && cd build
+cmake ..
+make
+source [ws]/devel/setup.bash
+catkin build dynamixel_workbench_controllers
+```
+- rulesのコピー
+```
+sudo cp rules/26-msl_hand.rules /etc/udev/rules.d/
+```
+
+## dynamixel wizardのインストール
+- ファイルをダウンロードし、aptでインストール
+https://emanual.robotis.com/docs/en/software/dynamixel/dynamixel_wizard2/
 
 # 実機での実行手順
 
@@ -71,3 +96,9 @@ Solidworksで各リンクのアセンブリを開いて(全身アセンブリで
 ## build
 - configやモデルを更新した際のcatkin build時は、古い生成ファイルが残ったままだと新しく生成されないため、削除してからビルドすること
  （matsuura_hand_l.l、（大文字）.*ファイルなど）
+## dynamixel stateのプロット（scripts/test/）
+- execute following command
+```
+python plot_joint_states.py "test"
+python plot_joint_states.py "test" "current"
+```
